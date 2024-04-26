@@ -50,7 +50,7 @@ public class CustomPlayableCircle extends Circle {
 /* >>>> setters and getters <<<< */
 
 
-/* >>>> move function <<<< */
+/* >>>> enable object motion controls function <<<< */
 
 
     public void enableMotionControls() {
