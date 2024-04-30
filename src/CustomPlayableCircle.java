@@ -17,10 +17,8 @@ public class CustomPlayableCircle extends Circle {
     private double yVelocity = 0.0;
     private boolean inAir = false;
 
-    private static final double movingStep = 10.0;
+    private static final double movingStep = 5;
     private double xDisplacement = 0.0;
-
-    private double motionDuration = 16.0;
 
     private ScaleTransition deformationAnimation;
     private double deformationDuration = 100.0;
@@ -31,58 +29,64 @@ public class CustomPlayableCircle extends Circle {
 /* >>>> constructors <<<< */
 
 
-    public CustomPlayableCircle(double v2) {
-        super(v2);
+    public CustomPlayableCircle(double radius) {
+        super(radius);
     }
-    public CustomPlayableCircle(double v2, Paint paint) {
-        super(v2, paint);
+    public CustomPlayableCircle(double radius, Paint paint) {
+        super(radius, paint);
     }
     public CustomPlayableCircle() {
     }
-    public CustomPlayableCircle(double v, double v1, double v2) {
-        super(v, v1, v2);
+    public CustomPlayableCircle(double centerX, double centerY, double radius) {
+        super(centerX, centerY, radius);
     }
-    public CustomPlayableCircle(double v, double v1, double v2, Paint paint) {
-        super(v, v1, v2, paint);
+    public CustomPlayableCircle(double centerX, double centerY, double radius, Paint paint) {
+        super(centerX, centerY, radius, paint);
     }
 
 
 /* >>>> setters and getters <<<< */
 
+    public void setyVelocity(double yVelocity) {
+        this.yVelocity = yVelocity;
+    }
 
-/* >>>> enable object motion controls function <<<< */
+
+    /* >>>> move function <<<< */
 
 
     public void enableMotionControls() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(motionDuration), e -> {
-        // horizontal motion
-            double newX = this.getCenterX() + xDisplacement;
-            // checks if the object hits the walls of the scene
-            if (newX > this.getScene().getWidth() - this.getRadius()) {
-                newX = this.getScene().getWidth() - this.getRadius();
-            }
-            if (newX < this.getRadius()) {
-                newX = this.getRadius();
-            }
-            this.setCenterX(newX);
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                // horizontal motion
+                double newX = getCenterX() + xDisplacement;
+                // checks if the object hits the walls of the scene
+                if (newX > getScene().getWidth() - getRadius()) {
+                    newX = getScene().getWidth() - getRadius();
+                }
+                if (newX < getRadius()) {
+                    newX = getRadius();
+                }
+                setCenterX(newX);
 
-        // vertical motion
-            // V = Vo + g*t
-            // the equation is reduced and simplified to avoid doing multiplication/division operations which can lead to accuracy problems.
-            yVelocity += VirtualGravity;
+                // vertical motion
+                // V = Vo + g*t
+                // the equation is reduced and simplified to avoid doing multiplication/division operations which can lead to accuracy problems.
+                yVelocity += VirtualGravity;
 
-            double newY = this.getCenterY() + yVelocity;
+                double newY = getCenterY() + yVelocity;
 
-            // Checks if the object hits the ground reference of y-axis
-            if (newY >= this.yGroundReference - this.getRadius()) {
-                newY = this.yGroundReference - this.getRadius();
-                yVelocity = 0.0;
-                inAir = false;
+                // Checks if the object hits the ground reference of y-axis
+                if (newY >= yGroundReference - getRadius()) {
+                    newY = yGroundReference - getRadius();
+                    yVelocity = 0.0;
+                    inAir = false;
+                }
+                setCenterY(newY);
             }
-            this.setCenterY(newY);
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        };
+        animationTimer.start();
     }
     
 
@@ -112,15 +116,15 @@ public class CustomPlayableCircle extends Circle {
 
 
     public void handlePressedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT) {
+        if (key == KeyCode.RIGHT || key == KeyCode.D) {
             xDisplacement = movingStep;
             this.xDeformation(1.1);
         }
-        else if (key == KeyCode.LEFT) {
+        if (key == KeyCode.LEFT || key == KeyCode.A) {
             xDisplacement = -movingStep;
             this.xDeformation(1.1);
         }
-        else if (key == KeyCode.SPACE && !inAir) {
+        if (key == KeyCode.SPACE && !inAir) {
             yVelocity = jumpVelocity;
             inAir = true;
             this.yDeformation(1.2);
