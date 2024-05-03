@@ -15,6 +15,8 @@ public class CustomPlayableCircle extends Circle {
 
     private double Vx = 0.0;
     private double Vy = 0.0;
+    private final double xStep = 7;
+    private final double yStep = 10;
     public boolean inAir = false;
 
     public double yGroundReference;
@@ -126,13 +128,13 @@ public class CustomPlayableCircle extends Circle {
 
     public void handlePressedKey(KeyCode key) {
         if (key == KeyCode.RIGHT) {
-            setVx(10);
+            setVx(xStep);
         }
         if (key == KeyCode.LEFT) {
-            setVx(-10);
+            setVx(-xStep);
         }
         if (key == KeyCode.SPACE && !inAir) {
-            setVy(-10);
+            setVy(-yStep);
             inAir = true;
         }
     }
