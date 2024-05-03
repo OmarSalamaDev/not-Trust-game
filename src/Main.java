@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setTitle("Project");
 
         // instantiate spirit object
-        spirit = new CustomPlayableCircle(20, Color.WHITE);
+        spirit = new CustomPlayableCircle(10, Color.WHITE);
         spirit.yGroundReference = primaryScene.getHeight(); // initialize ground reference of y-axis
         spirit.setSceneBorders(0, primaryScene.getHeight(), primaryScene.getWidth(), 0);
         spirit.setCenterX(primaryScene.getWidth() / 2.0);
