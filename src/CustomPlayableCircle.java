@@ -11,19 +11,19 @@ public class CustomPlayableCircle extends Circle {
 /* >>>> class attributes <<<< */
 
 
-    private static final double VirtualGravity = 0.5;
+    private static final double GRAVITY = 0.5;
 
-    private double jumpVelocity = -10.0;
-    private double yVelocity = 0.0;
-    private boolean inAir = false;
-
-    private static final double movingStep = 5;
-    private double xDisplacement = 0.0;
-
-    private ScaleTransition deformationAnimation;
-    private double deformationDuration = 100.0;
+    private double Vx = 0.0;
+    private double Vy = 0.0;
+    public boolean inAir = false;
 
     public double yGroundReference;
+
+    // scene borders relative to the class
+    private double lowerSceneBorder;
+    private double upperSceneBorder;
+    private double leftSceneBorder;
+    private double rightSceneBorder;
 
 
 /* >>>> constructors <<<< */
@@ -47,54 +47,63 @@ public class CustomPlayableCircle extends Circle {
 
 /* >>>> setters and getters <<<< */
 
-    public void setyVelocity(double yVelocity) {
-        this.yVelocity = yVelocity;
+
+    // Scene borders setter
+    public void setSceneBorders(double upperSceneBorder, double lowerSceneBorder, double rightSceneBorder, double leftSceneBorder) {
+        this.upperSceneBorder = upperSceneBorder;
+        this.lowerSceneBorder = lowerSceneBorder;
+        this.rightSceneBorder = rightSceneBorder;
+        this.leftSceneBorder = leftSceneBorder;
+    }
+
+    // velocity getters and setters
+    public double getVx() {
+        return Vx;
+    }
+    public void setVx(double vx) {
+        this.Vx = vx;
+    }
+    public double getVy() {
+        return Vy;
+    }
+    public void setVy(double vy) {
+        this.Vy = vy;
     }
 
 
-    /* >>>> move function <<<< */
+    /* >>>> Update position function <<<< */
 
 
-    public void enableMotionControls() {
-        AnimationTimer animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                // horizontal motion
-                double newX = getCenterX() + xDisplacement;
-                // checks if the object hits the walls of the scene
-                if (newX > getScene().getWidth() - getRadius()) {
-                    newX = getScene().getWidth() - getRadius();
-                }
-                if (newX < getRadius()) {
-                    newX = getRadius();
-                }
-                setCenterX(newX);
+    public void updatePosition() {
 
-                // vertical motion
-                // V = Vo + g*t
-                // the equation is reduced and simplified to avoid doing multiplication/division operations which can lead to accuracy problems.
-                yVelocity += VirtualGravity;
+        // add gravity
+        Vy += GRAVITY;
 
-                double newY = getCenterY() + yVelocity;
+        // set new positions
+        double newX = getCenterX() + Vx;
+        double newY = getCenterY() + Vy;
 
-                // Checks if the object hits the ground reference of y-axis
-                if (newY >= yGroundReference - getRadius()) {
-                    newY = yGroundReference - getRadius();
-                    yVelocity = 0.0;
-                    inAir = false;
-                }
-                setCenterY(newY);
-            }
-        };
-        animationTimer.start();
+        // checks if the object hits the borders of the scene
+        if (newX > rightSceneBorder - getRadius()) newX = rightSceneBorder - getRadius();
+        if (newX < leftSceneBorder + getRadius()) newX = leftSceneBorder + getRadius();
+        if (newY >= yGroundReference - getRadius()) {
+            newY = yGroundReference - getRadius();
+            Vy = 0.0;
+            inAir = false;
+        }
+        if (newY < upperSceneBorder + getRadius()) newY = upperSceneBorder + getRadius();
+
+        // apply the new position
+        setCenterX(newX);
+        setCenterY(newY);
     }
-    
+
 
 /* >>>> deformation functions <<<< */
 
 
     public void xDeformation(double factor) {
-        deformationAnimation = new ScaleTransition(Duration.millis(deformationDuration), this);
+        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
         deformationAnimation.setFromX(1);
         deformationAnimation.setToX(factor);
         deformationAnimation.setAutoReverse(true);
@@ -103,7 +112,7 @@ public class CustomPlayableCircle extends Circle {
 
     }
     public void yDeformation(double factor) {
-        deformationAnimation = new ScaleTransition(Duration.millis(100), this);
+        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
         deformationAnimation.setFromY(1);
         deformationAnimation.setToY(factor);
         deformationAnimation.setAutoReverse(true);
@@ -116,18 +125,15 @@ public class CustomPlayableCircle extends Circle {
 
 
     public void handlePressedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT || key == KeyCode.D) {
-            xDisplacement = movingStep;
-            this.xDeformation(1.1);
+        if (key == KeyCode.RIGHT) {
+            setVx(10);
         }
-        if (key == KeyCode.LEFT || key == KeyCode.A) {
-            xDisplacement = -movingStep;
-            this.xDeformation(1.1);
+        if (key == KeyCode.LEFT) {
+            setVx(-10);
         }
         if (key == KeyCode.SPACE && !inAir) {
-            yVelocity = jumpVelocity;
+            setVy(-10);
             inAir = true;
-            this.yDeformation(1.2);
         }
     }
 
@@ -136,7 +142,7 @@ public class CustomPlayableCircle extends Circle {
 
 
     public void handleReleasedKey(KeyCode key) {
-        xDisplacement = 0.0;
+        if (key == KeyCode.RIGHT || key == KeyCode.LEFT) setVx(0.0);
     }
 
 
