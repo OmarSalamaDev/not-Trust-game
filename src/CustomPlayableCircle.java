@@ -15,8 +15,8 @@ public class CustomPlayableCircle extends Circle {
 
     private double Vx = 0.0;
     private double Vy = 0.0;
-    private final double xStep = 7;
-    private final double yStep = 10;
+    private double xStep = 5;
+    private double yStep = 10;
     public boolean inAir = false;
 
     public double yGroundReference;
@@ -72,6 +72,25 @@ public class CustomPlayableCircle extends Circle {
         this.Vy = vy;
     }
 
+    // steps
+
+    public double getxStep() {
+        return xStep;
+    }
+
+    public void setxStep(double xStep) {
+        this.xStep = xStep;
+    }
+
+    public double getyStep() {
+        return yStep;
+    }
+
+    public void setyStep(double yStep) {
+        this.yStep = yStep;
+    }
+
+
 
     /* >>>> Update position function <<<< */
 
@@ -123,29 +142,15 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> pressed key handler function <<<< */
+/* >>>> ..... <<<< */
 
 
-    public void handlePressedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT) {
-            setVx(xStep);
-        }
-        if (key == KeyCode.LEFT) {
-            setVx(-xStep);
-        }
-        if (key == KeyCode.SPACE && !inAir) {
-            setVy(-yStep);
-            inAir = true;
-        }
-    }
 
 
-/* >>>> Released key handler function <<<< */
+
+/* >>>> ..... <<<< */
 
 
-    public void handleReleasedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT || key == KeyCode.LEFT) setVx(0.0);
-    }
 
 
 /* >>>> ..... <<<< */
