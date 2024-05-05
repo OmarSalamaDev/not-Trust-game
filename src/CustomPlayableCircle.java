@@ -22,10 +22,10 @@ public class CustomPlayableCircle extends Circle {
     public double yGroundReference;
 
     // scene borders relative to the class
-    private double lowerSceneBorder;
-    private double upperSceneBorder;
-    private double leftSceneBorder;
-    private double rightSceneBorder;
+    private double lowerBorder;
+    private double upperBorder;
+    private double leftSBorder;
+    private double rightBorder;
 
 
 /* >>>> constructors <<<< */
@@ -52,11 +52,45 @@ public class CustomPlayableCircle extends Circle {
 
     // Scene borders setter
     public void setSceneBorders(double upperSceneBorder, double lowerSceneBorder, double rightSceneBorder, double leftSceneBorder) {
-        this.upperSceneBorder = upperSceneBorder;
-        this.lowerSceneBorder = lowerSceneBorder;
-        this.rightSceneBorder = rightSceneBorder;
-        this.leftSceneBorder = leftSceneBorder;
+        this.upperBorder = upperSceneBorder;
+        this.lowerBorder = lowerSceneBorder;
+        this.rightBorder = rightSceneBorder;
+        this.leftSBorder = leftSceneBorder;
     }
+
+    public double getLowerBorder() {
+        return lowerBorder;
+    }
+
+    public void setLowerBorder(double lowerSceneBorder) {
+        this.lowerBorder = lowerSceneBorder;
+    }
+
+    public double getUpperBorder() {
+        return upperBorder;
+    }
+
+    public void setUpperBorder(double upperSceneBorder) {
+        this.upperBorder = upperSceneBorder;
+    }
+
+    public double getLeftBorder() {
+        return leftSBorder;
+    }
+
+    public void setLeftBorder(double leftSceneBorder) {
+        this.leftSBorder = leftSceneBorder;
+    }
+
+    public double getRightBorder() {
+        return rightBorder;
+    }
+
+    public void setRightBorder(double rightSceneBorder) {
+        this.rightBorder = rightSceneBorder;
+    }
+    
+    
 
     // velocity getters and setters
     public double getVx() {
@@ -105,14 +139,17 @@ public class CustomPlayableCircle extends Circle {
         double newY = getCenterY() + Vy;
 
         // checks if the object hits the borders of the scene
-        if (newX > rightSceneBorder - getRadius()) newX = rightSceneBorder - getRadius();
-        if (newX < leftSceneBorder + getRadius()) newX = leftSceneBorder + getRadius();
+        if (newX > rightBorder - getRadius()) newX = rightBorder - getRadius();
+        if (newX < leftSBorder + getRadius()) newX = leftSBorder + getRadius();
         if (newY >= yGroundReference - getRadius()) {
             newY = yGroundReference - getRadius();
             Vy = 0.0;
             inAir = false;
         }
-        if (newY < upperSceneBorder + getRadius()) newY = upperSceneBorder + getRadius();
+        if (newY < upperBorder + getRadius()) {
+            newY = upperBorder + getRadius();
+            Vy = 0;
+        }
 
         // apply the new position
         setCenterX(newX);
