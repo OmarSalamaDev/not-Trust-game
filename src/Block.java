@@ -10,7 +10,6 @@ public class Block extends Rectangle {
 
     private boolean isBlock = false;
     private boolean isOnBlock = false;
-    private CustomPlayableCircle spirit;
 
 
     /* >>>> constructors <<<< */
@@ -18,20 +17,14 @@ public class Block extends Rectangle {
 
     public Block() {
     }
-    public Block(double v, double v1, CustomPlayableCircle spirit) {
+    public Block(double v, double v1) {
         super(v, v1);
-        this.spirit = spirit;
-        checkBlock();
     }
-    public Block(double v, double v1, Paint paint, CustomPlayableCircle spirit) {
+    public Block(double v, double v1, Paint paint) {
         super(v, v1, paint);
-        this.spirit = spirit;
-        checkBlock();
     }
-    public Block(double v, double v1, double v2, double v3, CustomPlayableCircle spirit) {
+    public Block(double v, double v1, double v2, double v3) {
         super(v, v1, v2, v3);
-        this.spirit = spirit;
-        checkBlock();
     }
 
 
@@ -41,11 +34,11 @@ public class Block extends Rectangle {
     /* >>>>  <<<< */
 
 
-    private void checkBlock() {
+    public void checkBlock(CustomPlayableCircle spirit) {
         AnimationTimer timer = new AnimationTimer() {
-            double R = spirit.getRadius();
-            double H = getHeight();
-            double W = getWidth();
+            final double R = spirit.getRadius();
+            final double H = getHeight();
+            final double W = getWidth();
             @Override
             public void handle(long l) {
                 // check if the spirit touches the block
