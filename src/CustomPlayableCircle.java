@@ -1,5 +1,4 @@
 import javafx.animation.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -8,27 +7,33 @@ import javafx.util.Duration;
 public class CustomPlayableCircle extends Circle {
 
 
-/* >>>> class attributes <<<< */
+    /* >>>> class attributes <<<< */
 
 
     private static final double GRAVITY = 0.5;
 
     private double Vx = 0.0;
     private double Vy = 0.0;
-    private final double xStep = 7;
-    private final double yStep = 10;
+    private double xStep = 5;
+    private double yStep = 10;
     public boolean inAir = false;
 
-    public double yGroundReference;
-
     // scene borders relative to the class
-    private double lowerSceneBorder;
-    private double upperSceneBorder;
-    private double leftSceneBorder;
-    private double rightSceneBorder;
+    private double lowerBorder;
+    private double upperBorder;
+    private double leftBorder;
+    private double rightBorder;
+
+    private double defaultLower;
+    private double defaultUpper;
+    private double defaultLeft;
+    private double defaultRight;
+
+    public boolean isBlock = false;
+    public boolean isOnBlock = false;
 
 
-/* >>>> constructors <<<< */
+    /* >>>> constructors <<<< */
 
 
     public CustomPlayableCircle(double radius) {
@@ -36,29 +41,72 @@ public class CustomPlayableCircle extends Circle {
     }
     public CustomPlayableCircle(double radius, Paint paint) {
         super(radius, paint);
+        enableMotion();
     }
     public CustomPlayableCircle() {
+        enableMotion();
     }
     public CustomPlayableCircle(double centerX, double centerY, double radius) {
         super(centerX, centerY, radius);
+        enableMotion();
     }
     public CustomPlayableCircle(double centerX, double centerY, double radius, Paint paint) {
         super(centerX, centerY, radius, paint);
+        enableMotion();
     }
 
 
-/* >>>> setters and getters <<<< */
+    /* >>>> setters and getters <<<< */
 
 
     // Scene borders setter
-    public void setSceneBorders(double upperSceneBorder, double lowerSceneBorder, double rightSceneBorder, double leftSceneBorder) {
-        this.upperSceneBorder = upperSceneBorder;
-        this.lowerSceneBorder = lowerSceneBorder;
-        this.rightSceneBorder = rightSceneBorder;
-        this.leftSceneBorder = leftSceneBorder;
+    public void setDefaultBorders(double upperBorder, double lowerBorder, double rightBorder, double leftBorder) {
+        this.lowerBorder = lowerBorder;
+        this.upperBorder = upperBorder;
+        this.leftBorder = leftBorder;
+        this.rightBorder = rightBorder;
+
+        defaultLower = lowerBorder;
+        defaultUpper = upperBorder;
+        defaultLeft = leftBorder;
+        defaultRight = rightBorder;
     }
 
-    // velocity getters and setters
+    // borders
+    public double getLowerBorder() {
+        return lowerBorder;
+    }
+    public void setLowerBorder(double lowerSceneBorder) {
+        this.lowerBorder = lowerSceneBorder;
+    }
+    public double getUpperBorder() {
+        return upperBorder;
+    }
+    public void setUpperBorder(double upperSceneBorder) {
+        this.upperBorder = upperSceneBorder;
+    }
+    public double getLeftBorder() {
+        return leftBorder;
+    }
+    public void setLeftBorder(double leftSceneBorder) {
+        this.leftBorder = leftSceneBorder;
+    }
+    public double getRightBorder() {
+        return rightBorder;
+    }
+    public void setRightBorder(double rightSceneBorder) {
+        this.rightBorder = rightSceneBorder;
+    }
+
+    // reset borders
+    public void resetBorders() {
+        lowerBorder = defaultLower;
+        upperBorder = defaultUpper;
+        leftBorder = defaultLeft;
+        rightBorder = defaultRight;
+    }
+
+    // velocity
     public double getVx() {
         return Vx;
     }
@@ -70,6 +118,20 @@ public class CustomPlayableCircle extends Circle {
     }
     public void setVy(double vy) {
         this.Vy = vy;
+    }
+
+    // steps
+    public double getxStep() {
+        return xStep;
+    }
+    public void setxStep(double xStep) {
+        this.xStep = xStep;
+    }
+    public double getyStep() {
+        return yStep;
+    }
+    public void setyStep(double yStep) {
+        this.yStep = yStep;
     }
 
 
@@ -86,14 +148,17 @@ public class CustomPlayableCircle extends Circle {
         double newY = getCenterY() + Vy;
 
         // checks if the object hits the borders of the scene
-        if (newX > rightSceneBorder - getRadius()) newX = rightSceneBorder - getRadius();
-        if (newX < leftSceneBorder + getRadius()) newX = leftSceneBorder + getRadius();
-        if (newY >= yGroundReference - getRadius()) {
-            newY = yGroundReference - getRadius();
+        if (newX > rightBorder - getRadius()) newX = rightBorder - getRadius();
+        if (newX < leftBorder + getRadius()) newX = leftBorder + getRadius();
+        if (newY >= lowerBorder - getRadius()) {
+            newY = lowerBorder - getRadius();
             Vy = 0.0;
             inAir = false;
         }
-        if (newY < upperSceneBorder + getRadius()) newY = upperSceneBorder + getRadius();
+        if (newY < upperBorder + getRadius()) {
+            newY = upperBorder + getRadius();
+            Vy = 0;
+        }
 
         // apply the new position
         setCenterX(newX);
@@ -101,7 +166,7 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> deformation functions <<<< */
+    /* >>>> deformation functions <<<< */
 
 
     public void xDeformation(double factor) {
@@ -123,32 +188,26 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> pressed key handler function <<<< */
+    /* >>>> enable motion for the object  <<<< */
 
 
-    public void handlePressedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT) {
-            setVx(xStep);
-        }
-        if (key == KeyCode.LEFT) {
-            setVx(-xStep);
-        }
-        if (key == KeyCode.SPACE && !inAir) {
-            setVy(-yStep);
-            inAir = true;
-        }
+    public void enableMotion() {
+        AnimationTimer motionTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updatePosition();
+            }
+        };
+        motionTimer.start();
     }
 
 
-/* >>>> Released key handler function <<<< */
+    /* >>>> ..... <<<< */
 
 
-    public void handleReleasedKey(KeyCode key) {
-        if (key == KeyCode.RIGHT || key == KeyCode.LEFT) setVx(0.0);
-    }
 
 
-/* >>>> ..... <<<< */
+    /* >>>> ..... <<<< */
 
 
 }
