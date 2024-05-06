@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -13,12 +14,13 @@ public class Main extends Application {
 
     // global objects and variables
     public CustomPlayableCircle spirit;
-    public Rectangle block;
     public AnimationTimer motionTimer;
     public KeyCode thisKey = null;
     public KeyCode previousKey = null;
-    public boolean isBlock = false;
-    public boolean isOnBlock = false;
+
+    public Block b1;
+    public Block b2;
+
 
 
     @Override
@@ -42,33 +44,39 @@ public class Main extends Application {
         spirit.setCenterY(spirit.yGroundReference - spirit.getRadius());
         root.getChildren().add(spirit);
 
-
-
         // enable for spirit object
         enableMotion(spirit);
 
-        // test block 1
-        block = new Rectangle(400, 450, 200, 50);
-        block.setFill(Color.RED);
-        root.getChildren().add(block);
-        checkblock(block);
+        // test block 2
+        b2 = new Block(300, 300, 50, 50, spirit);
+        b2.setFill(Color.RED);
+        root.getChildren().add(b2);
 
-        // keyboard actions control
+        // test block 1
+        b1 = new Block(400, 350, 200, 200, spirit);
+        b1.setFill(Color.RED);
+        root.getChildren().add(b1);
+
+
+
+
+
+
+
+
+        // handel keyboard actions
         spirit.getScene().setOnKeyPressed(e -> {
             thisKey = e.getCode();
-            
+
             if (thisKey == KeyCode.RIGHT) {
                 spirit.setVx(spirit.getxStep());
-                previousKey = thisKey;
             }
             else if (thisKey == KeyCode.LEFT) {
                 spirit.setVx(-spirit.getxStep());
-                previousKey = thisKey;
             }
             else if (thisKey == KeyCode.SPACE && !spirit.inAir) {
                 spirit.setVy(-spirit.getyStep());
                 spirit.inAir = true;
-                previousKey = thisKey;
             }
         });
         spirit.getScene().setOnKeyReleased(e -> {
@@ -82,7 +90,7 @@ public class Main extends Application {
     }
 
 
-/* >>>> enable motion for the object  <<<< */
+    /* >>>> enable motion for the object  <<<< */
 
 
     public void enableMotion(CustomPlayableCircle spirit) {
@@ -99,55 +107,11 @@ public class Main extends Application {
 
 
 
-    public void checkblock(Rectangle x) {
-        AnimationTimer timer = new AnimationTimer() {
-            double r = spirit.getRadius();
-            @Override
-            public void handle(long l) {
-                // check if the spirit touches the block
-                if (spirit.getBoundsInParent().intersects(x.getBoundsInParent())) {
-                    isBlock = true;
-                    spirit.setUpperBorder(x.getY()+x.getHeight());
-                    
-//                    // upper edge
-//                    if (spirit.getCenterY()+spirit.getRadius() > x.getY() && spirit.getCenterX()+spirit.getRadius() > x.getX() && spirit.getCenterX()-spirit.getRadius() < x.getX()+x.getWidth()){
-//                        isOnBlock = true;
-//                        spirit.setxStep(5);
-//                        spirit.yGroundReference = x.getY();
-//                    }
-                    // lower edge
-                    //if (spirit.getCenterY()-r > x.getY()+x.getHeight() && !isOnBlock) {
-                        
-                    //}
-                    // left edge
-                    if (spirit.getCenterX()+r == x.getX() && !isOnBlock) {
-                        spirit.setRightBorder(block.getX());
-                    }
-                    // right edge
-                    if (spirit.getCenterX()-r == x.getX()+x.getWidth() && !isOnBlock) {
-                        spirit.setLeftBorder(block.getX()+x.getWidth());
-                    }
-                   
-                } 
-                // reset values
-                else {
-                    isBlock = false;
-                    isOnBlock = false;
-                    spirit.setxStep(5);
-                    spirit.setyStep(20);
-                    spirit.yGroundReference = 600;
-                    spirit.setRightBorder(1000);
-                    spirit.setLeftBorder(0);
-                    spirit.setUpperBorder(0);
-                }
-            }
-        };
-        timer.start();
-    }
-     
 
-/* >>>> launcher  <<<< */
-   
+
+
+    /* >>>> launcher  <<<< */
+
 
 
     public static void main(String[] args) {

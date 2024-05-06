@@ -8,7 +8,7 @@ import javafx.util.Duration;
 public class CustomPlayableCircle extends Circle {
 
 
-/* >>>> class attributes <<<< */
+    /* >>>> class attributes <<<< */
 
 
     private static final double GRAVITY = 0.5;
@@ -28,7 +28,7 @@ public class CustomPlayableCircle extends Circle {
     private double rightBorder;
 
 
-/* >>>> constructors <<<< */
+    /* >>>> constructors <<<< */
 
 
     public CustomPlayableCircle(double radius) {
@@ -47,7 +47,7 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> setters and getters <<<< */
+    /* >>>> setters and getters <<<< */
 
 
     // Scene borders setter
@@ -89,8 +89,8 @@ public class CustomPlayableCircle extends Circle {
     public void setRightBorder(double rightSceneBorder) {
         this.rightBorder = rightSceneBorder;
     }
-    
-    
+
+
 
     // velocity getters and setters
     public double getVx() {
@@ -157,7 +157,7 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> deformation functions <<<< */
+    /* >>>> deformation functions <<<< */
 
 
     public void xDeformation(double factor) {
@@ -179,18 +179,18 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-/* >>>> ..... <<<< */
+    /* >>>> ..... <<<< */
 
 
 
 
 
-/* >>>> ..... <<<< */
+    /* >>>> ..... <<<< */
 
 
 
 
-/* >>>> ..... <<<< */
+    /* >>>> ..... <<<< */
 
 
 }
