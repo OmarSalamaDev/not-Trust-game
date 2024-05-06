@@ -21,6 +21,8 @@ public class Main extends Application {
     public Block b1;
     public Block b2;
 
+    int i = 0;
+
 
 
     @Override
@@ -47,23 +49,22 @@ public class Main extends Application {
         // enable for spirit object
         enableMotion(spirit);
 
-        // test block 2
-        b2 = new Block(300, 300, 50, 50, spirit);
-        b2.setFill(Color.RED);
-        root.getChildren().add(b2);
-
         // test block 1
-        b1 = new Block(400, 350, 200, 200, spirit);
+        b1 = new Block(400, 350, 200, 200);
         b1.setFill(Color.RED);
+        b1.checkBlock(spirit);
         root.getChildren().add(b1);
 
+        // test block 2
+        b2 = new Block(300, 300, 50, 50);
+        b2.setFill(Color.RED);
+        b2.checkBlock(spirit);
+        root.getChildren().add(b2);
 
 
 
 
-
-
-
+        
         // handel keyboard actions
         spirit.getScene().setOnKeyPressed(e -> {
             thisKey = e.getCode();
