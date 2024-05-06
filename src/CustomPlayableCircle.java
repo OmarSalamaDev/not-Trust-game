@@ -1,5 +1,4 @@
 import javafx.animation.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -16,16 +15,22 @@ public class CustomPlayableCircle extends Circle {
     private double Vx = 0.0;
     private double Vy = 0.0;
     private double xStep = 5;
-    private double yStep = 10;
+    private double yStep = 20;
     public boolean inAir = false;
-
-    public double yGroundReference;
 
     // scene borders relative to the class
     private double lowerBorder;
     private double upperBorder;
-    private double leftSBorder;
+    private double leftBorder;
     private double rightBorder;
+
+    private double defaultLower;
+    private double defaultUpper;
+    private double defaultLeft;
+    private double defaultRight;
+
+    public boolean isBlock = false;
+    public boolean isOnBlock = false;
 
 
     /* >>>> constructors <<<< */
@@ -36,14 +41,18 @@ public class CustomPlayableCircle extends Circle {
     }
     public CustomPlayableCircle(double radius, Paint paint) {
         super(radius, paint);
+        enableMotion();
     }
     public CustomPlayableCircle() {
+        enableMotion();
     }
     public CustomPlayableCircle(double centerX, double centerY, double radius) {
         super(centerX, centerY, radius);
+        enableMotion();
     }
     public CustomPlayableCircle(double centerX, double centerY, double radius, Paint paint) {
         super(centerX, centerY, radius, paint);
+        enableMotion();
     }
 
 
@@ -51,48 +60,53 @@ public class CustomPlayableCircle extends Circle {
 
 
     // Scene borders setter
-    public void setSceneBorders(double upperSceneBorder, double lowerSceneBorder, double rightSceneBorder, double leftSceneBorder) {
-        this.upperBorder = upperSceneBorder;
-        this.lowerBorder = lowerSceneBorder;
-        this.rightBorder = rightSceneBorder;
-        this.leftSBorder = leftSceneBorder;
+    public void setDefaultBorders(double upperBorder, double lowerBorder, double rightBorder, double leftBorder) {
+        this.lowerBorder = lowerBorder;
+        this.upperBorder = upperBorder;
+        this.leftBorder = leftBorder;
+        this.rightBorder = rightBorder;
+
+        defaultLower = lowerBorder;
+        defaultUpper = upperBorder;
+        defaultLeft = leftBorder;
+        defaultRight = rightBorder;
     }
 
+    // borders
     public double getLowerBorder() {
         return lowerBorder;
     }
-
     public void setLowerBorder(double lowerSceneBorder) {
         this.lowerBorder = lowerSceneBorder;
     }
-
     public double getUpperBorder() {
         return upperBorder;
     }
-
     public void setUpperBorder(double upperSceneBorder) {
         this.upperBorder = upperSceneBorder;
     }
-
     public double getLeftBorder() {
-        return leftSBorder;
+        return leftBorder;
     }
-
     public void setLeftBorder(double leftSceneBorder) {
-        this.leftSBorder = leftSceneBorder;
+        this.leftBorder = leftSceneBorder;
     }
-
     public double getRightBorder() {
         return rightBorder;
     }
-
     public void setRightBorder(double rightSceneBorder) {
         this.rightBorder = rightSceneBorder;
     }
 
+    // reset borders
+    public void resetBorders() {
+        lowerBorder = defaultLower;
+        upperBorder = defaultUpper;
+        leftBorder = defaultLeft;
+        rightBorder = defaultRight;
+    }
 
-
-    // velocity getters and setters
+    // velocity
     public double getVx() {
         return Vx;
     }
@@ -107,23 +121,18 @@ public class CustomPlayableCircle extends Circle {
     }
 
     // steps
-
     public double getxStep() {
         return xStep;
     }
-
     public void setxStep(double xStep) {
         this.xStep = xStep;
     }
-
     public double getyStep() {
         return yStep;
     }
-
     public void setyStep(double yStep) {
         this.yStep = yStep;
     }
-
 
 
     /* >>>> Update position function <<<< */
@@ -140,9 +149,9 @@ public class CustomPlayableCircle extends Circle {
 
         // checks if the object hits the borders of the scene
         if (newX > rightBorder - getRadius()) newX = rightBorder - getRadius();
-        if (newX < leftSBorder + getRadius()) newX = leftSBorder + getRadius();
-        if (newY >= yGroundReference - getRadius()) {
-            newY = yGroundReference - getRadius();
+        if (newX < leftBorder + getRadius()) newX = leftBorder + getRadius();
+        if (newY >= lowerBorder - getRadius()) {
+            newY = lowerBorder - getRadius();
             Vy = 0.0;
             inAir = false;
         }
@@ -179,10 +188,18 @@ public class CustomPlayableCircle extends Circle {
     }
 
 
-    /* >>>> ..... <<<< */
+    /* >>>> enable motion for the object  <<<< */
 
 
-
+    public void enableMotion() {
+        AnimationTimer motionTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updatePosition();
+            }
+        };
+        motionTimer.start();
+    }
 
 
     /* >>>> ..... <<<< */

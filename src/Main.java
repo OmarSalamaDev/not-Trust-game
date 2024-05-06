@@ -1,11 +1,8 @@
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
@@ -14,15 +11,9 @@ public class Main extends Application {
 
     // global objects and variables
     public CustomPlayableCircle spirit;
-    public AnimationTimer motionTimer;
-    public KeyCode thisKey = null;
-    public KeyCode previousKey = null;
-
     public Block b1;
     public Block b2;
-
-    int i = 0;
-
+    public Block b3;
 
 
     @Override
@@ -31,7 +22,6 @@ public class Main extends Application {
         // setup
         Pane root = new Pane();
         Scene primaryScene = new Scene(root, 1000, 600, Color.BLACK);
-        //primaryScene.getRoot().requestFocus();
         primaryStage.setScene(primaryScene);
         primaryStage.show();
         primaryStage.setResizable(false);
@@ -39,35 +29,35 @@ public class Main extends Application {
 
         // instantiate spirit object
         spirit = new CustomPlayableCircle(20, Color.WHITE);
-        spirit.yGroundReference = primaryScene.getHeight(); // initialize ground reference of y-axis
-        spirit.setSceneBorders(0, primaryScene.getHeight(), primaryScene.getWidth(), 0);
+        spirit.setDefaultBorders(0, primaryScene.getHeight(), primaryScene.getWidth(), 0);
         spirit.setCenterX(900);
-        //spirit.yGroundReference = 300; // play with it ;)
-        spirit.setCenterY(spirit.yGroundReference - spirit.getRadius());
+        spirit.setCenterY(primaryScene.getHeight() - spirit.getRadius());
         root.getChildren().add(spirit);
 
-        // enable for spirit object
-        enableMotion(spirit);
+        // set default spirit for the block class
+        Block.spirit = spirit;
 
         // test block 1
         b1 = new Block(400, 350, 200, 200);
         b1.setFill(Color.RED);
-        b1.checkBlock(spirit);
+        b1.checkBlock();
         root.getChildren().add(b1);
 
         // test block 2
         b2 = new Block(300, 300, 50, 50);
-        b2.setFill(Color.RED);
-        b2.checkBlock(spirit);
+        b2.setFill(Color.BLUE);
+        b2.checkBlock();
         root.getChildren().add(b2);
 
+        // test block 3
+        b3 = new Block(100, 400, 200, 100);
+        b3.setFill(Color.YELLOW);
+        b3.checkBlock();
+        root.getChildren().add(b3);
 
-
-
-        
         // handel keyboard actions
         spirit.getScene().setOnKeyPressed(e -> {
-            thisKey = e.getCode();
+            KeyCode thisKey = e.getCode();
 
             if (thisKey == KeyCode.RIGHT) {
                 spirit.setVx(spirit.getxStep());
@@ -91,28 +81,7 @@ public class Main extends Application {
     }
 
 
-    /* >>>> enable motion for the object  <<<< */
-
-
-    public void enableMotion(CustomPlayableCircle spirit) {
-        motionTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                spirit.updatePosition();
-            }
-        };
-        motionTimer.start();
-    }
-
-
-
-
-
-
-
-
     /* >>>> launcher  <<<< */
-
 
 
     public static void main(String[] args) {
