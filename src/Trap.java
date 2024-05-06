@@ -14,7 +14,7 @@ public class Trap extends Rectangle {
         if (circle.getBoundsInParent().intersects(this.getBoundsInParent())) {
             // Reset the position of the circle
             circle.setCenterX(circle.getScene().getWidth() / 6.0); // Set to starting X position
-            circle.setCenterY(circle.yGroundReference - circle.getRadius()); // Set to starting Y position
+            circle.setCenterY(circle.getLowerBorder() - circle.getRadius()); // Set to starting Y position
             return true;
         }
         return false;

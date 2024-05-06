@@ -3,7 +3,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 
 public class CustomAnimation extends Pane {
-    private BuildingBlock block;
+    private Block block;
     private CustomPlayableCircle spirit;
     private double startMotion;
     private double endMotion;
@@ -17,7 +17,7 @@ public class CustomAnimation extends Pane {
         VERTICAL
     }
 
-    public CustomAnimation(BuildingBlock block, CustomPlayableCircle spirit, double startMotion, double endMotion,double step, MotionType motionType) {
+    public CustomAnimation(Block block, CustomPlayableCircle spirit, double startMotion, double endMotion,double step, MotionType motionType) {
         this.block = block;
         this.spirit = spirit;
         this.startMotion = startMotion;

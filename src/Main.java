@@ -90,19 +90,19 @@ public class Main extends Application {
         root.getChildren().add(b4);
 
         // test block 5
-        b5 = new Block(900, 420, 70, 10);
+        b5 = new Block(900, 420, 70, 20);
         b5.setFill(Color.rgb(19, 47, 99));
         b5.checkBlock();
         root.getChildren().add(b5);
 
         // test block 6
-        b6 = new Block(700, 350, 70, 10);
+        b6 = new Block(700, 350, 70, 20);
         b6.setFill(Color.rgb(19, 47, 99));
         b6.checkBlock();
         root.getChildren().add(b6);
 
         // test block 7
-        b7 = new Block(500, 270, 70, 10);
+        b7 = new Block(500, 270, 70, 20);
         b7.setFill(Color.rgb(19, 47, 99));
         b7.checkBlock();
         root.getChildren().add(b7);
