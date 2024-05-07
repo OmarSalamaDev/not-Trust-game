@@ -2,7 +2,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
@@ -10,7 +12,7 @@ public class Main extends Application {
 
 
     // global objects and variables
-    public CustomPlayableCircle spirit;
+    public Spirit spirit;
     public Block b1;
     public Block b2;
     public Block b3;
@@ -34,14 +36,21 @@ public class Main extends Application {
         primaryStage.setTitle("Project");
 
         // instantiate spirit object
-        spirit = new CustomPlayableCircle(10, Color.RED);
-        spirit.setDefaultBorders(0, primaryScene.getHeight()-100, primaryScene.getWidth(), 0);
+        spirit = new Spirit(10, Color.RED);
+        spirit.setDefaultBorders(100, primaryScene.getHeight()-100, primaryScene.getWidth(), 0);
         spirit.setCenterX(400);
-        spirit.setCenterY(primaryScene.getHeight() - spirit.getRadius());
+        spirit.setCenterY(spirit.getLowerBorder() - 100 - spirit.getRadius());
         root.getChildren().add(spirit);
 
+        // dmkd
+        StackPane d = new StackPane();
+        Rectangle q = new Rectangle(500,500,Color.RED);
+        d.getChildren().add(q);
+
+        Scene x = new Scene(d,1200,600);
+
         // handel keyboard actions
-        spirit.getScene().setOnKeyPressed(e -> {
+        primaryScene.setOnKeyPressed(e -> {
             KeyCode thisKey = e.getCode();
 
             if (thisKey == KeyCode.RIGHT) {
@@ -54,6 +63,14 @@ public class Main extends Application {
                 spirit.setVy(-spirit.getyStep());
                 spirit.inAir = true;
             }
+            else if (thisKey == KeyCode.SHIFT) {
+                spirit.gravityFlip();
+                spirit.inAir = false;
+            }
+            else if (thisKey == KeyCode.ESCAPE) {
+                primaryStage.setScene(x);
+            }
+
         });
         spirit.getScene().setOnKeyReleased(e -> {
             KeyCode key = e.getCode();
@@ -61,6 +78,16 @@ public class Main extends Application {
                 spirit.setVx(0.0);
             }
         });
+
+        x.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.Q) {
+                primaryStage.setScene(primaryScene);
+            }
+        });
+
+
+
+
 
         // set default spirit for the block class
         Block.spirit = spirit;
@@ -90,19 +117,19 @@ public class Main extends Application {
         root.getChildren().add(b4);
 
         // test block 5
-        b5 = new Block(900, 420, 70, 20);
+        b5 = new Block(900, 420, 70, 25);
         b5.setFill(Color.rgb(19, 47, 99));
         b5.checkBlock();
         root.getChildren().add(b5);
 
         // test block 6
-        b6 = new Block(700, 350, 70, 20);
+        b6 = new Block(700, 350, 70, 25);
         b6.setFill(Color.rgb(19, 47, 99));
         b6.checkBlock();
         root.getChildren().add(b6);
 
         // test block 7
-        b7 = new Block(500, 270, 70, 20);
+        b7 = new Block(500, 270, 70, 25);
         b7.setFill(Color.rgb(19, 47, 99));
         b7.checkBlock();
         root.getChildren().add(b7);
@@ -112,6 +139,14 @@ public class Main extends Application {
         b8.setFill(Color.rgb(19, 47, 99));
         b8.checkBlock();
         root.getChildren().add(b8);
+
+        //CustomAnimation o = new CustomAnimation(b6, spirit, 700, 1000, 1, CustomAnimation.MotionType.HORIZONTAL);
+        //CustomAnimation u = new CustomAnimation(b7, spirit, 270, 400, 1, CustomAnimation.MotionType.VERTICAL);
+
+
+        
+
+
 
 
 
