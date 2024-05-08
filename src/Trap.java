@@ -1,22 +1,27 @@
-import javafx.scene.paint.Color;
+import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Rectangle;
 
 public class Trap extends Rectangle {
 
-    public Trap(double width, double height, Color color, double x, double y) {
-        super(width, height, color);
-        setX(x);
-        setY(y);
+    public Trap(double x, double y, double width, double height) {
+        super(x, y, width, height);
     }
 
-    public boolean checkCollision(Spirit circle) {
-        // Check if the circle intersects with the trap
-        if (circle.getBoundsInParent().intersects(this.getBoundsInParent())) {
-            // Reset the position of the circle
-            circle.setCenterX(circle.getScene().getWidth() / 6.0); // Set to starting X position
-            circle.setCenterY(circle.getLowerBorder() - circle.getRadius()); // Set to starting Y position
-            return true;
-        }
-        return false;
+    public void checkCollision(Spirit spirit, double startX, double startY) {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                if (spirit.getBoundsInParent().intersects(getBoundsInParent())) {
+                    spirit.setCenterX(startX);
+                    spirit.setCenterY(startY);
+                    spirit.setVx(0);
+                    spirit.setVy(0);
+                    if (spirit.isReversed) spirit.reverseGravity();
+                }
+            }
+        };
+        timer.start();
+
     }
+
 }
