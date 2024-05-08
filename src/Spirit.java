@@ -10,7 +10,7 @@ public class Spirit extends Circle {
     /* >>>> class attributes <<<< */
 
 
-    private static double GRAVITY = 0.5;
+    private double GRAVITY = 0.5;
 
     private double Vx = 0.0;
     private double Vy = 0.0;
@@ -140,9 +140,9 @@ public class Spirit extends Circle {
         GRAVITY *= -1;
         yStep *= -1;
         isReversed = !isReversed;
-
-
     }
+
+
 
     /* >>>> Update position function <<<< */
 
