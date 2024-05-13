@@ -1,3 +1,5 @@
+
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.ScaleTransition;
 import javafx.scene.control.TextField;
@@ -10,7 +12,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import javax.swing.text.Style;
+
 
 
 public class CustomButton extends StackPane {
@@ -18,6 +20,7 @@ public class CustomButton extends StackPane {
 
     /* >>>> class attributes <<<< */
 
+    public boolean isClicked = false;
 
     private Rectangle button;
     private Text text;
@@ -33,11 +36,12 @@ public class CustomButton extends StackPane {
     CustomButton(double width, double height, Paint buttonColor, String text, Paint textColor) {
         this.buttonColor = buttonColor;
         button = new Rectangle(width, height, buttonColor);
-        //button.setArcHeight(0.1*Math.max(height, width));
-        //button.setArcWidth(0.1*Math.max(height, width));
+        setMaxSize(width,height);
+        button.setArcHeight(0.5*Math.max(height, width));
+        button.setArcWidth(0.1*Math.max(height, width));
         //font = Font.loadFont(getClass().getResourceAsStream("fonts & icons/SpaceGrotesk-VariableFont_wght.ttf"), FontWeight.BOLD, 0.2*Math.max(height, width));
-        font = Font.font("Arial", FontWeight.BOLD, 0.25*Math.min(height, width));
-        this.text = new Text("text");
+        font = Font.font("Arial", FontWeight.BOLD, 0.5*Math.min(height, width));
+        this.text = new Text(text);
         this.text.setFont(font);
         this.text.setFill(textColor);
         getChildren().addAll(button, this.text);
@@ -48,7 +52,7 @@ public class CustomButton extends StackPane {
         scaleTransition = new ScaleTransition(Duration.millis(20), button);
         scaleTransition.setCycleCount(1);
 
-        button.setOnMouseEntered(e -> {
+        setOnMouseEntered(e -> {
             button.setOpacity(0.9);
             scaleTransition.setFromX(1);
             scaleTransition.setFromY(1);
@@ -57,7 +61,7 @@ public class CustomButton extends StackPane {
             scaleTransition.play();
 
         });
-        button.setOnMouseExited(e -> {
+        setOnMouseExited(e -> {
             button.setOpacity(1);
             scaleTransition.setFromX(1.02);
             scaleTransition.setFromY(1.02);

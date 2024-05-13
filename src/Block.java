@@ -1,20 +1,24 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Block extends Rectangle {
 
 
     /* >>>> class attributes <<<< */
     
+    private static final List<Block> instances = new ArrayList<>();
 
     private final double H;
     private final double W;
     private final double R;
-    public static Spirit spirit;
     public boolean isReset = false;
     public boolean isMoving = false;
     public boolean isTouched = false;
-    private AnimationTimer timer;
+    public AnimationTimer intersectionTimer;
+    private AnimationTimer animationTimer;
     private double motionStep;
 
     public enum MotionType {
@@ -28,39 +32,44 @@ public class Block extends Rectangle {
 
     public Block(double x, double y, double width, double height) {
         super(x, y, width, height);
-        R = spirit.getRadius();
+        R = Main.spirit.getRadius();
         H = getHeight();
         W = getWidth();
+        instances.add(this);
+        checkBlock(true);
     }
 
 
     /* >>>> check for blocks <<<<*/
 
 
-    public void checkBlock() {
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                // check if the spirit touches the block
-                if (spirit.getBoundsInParent().intersects(getBoundsInParent())) {
-                    spirit.isBlock = true;
-                    isTouched = true;
-                    changeBorders(spirit);
-                    isReset = true;
-                }
-                // if not touched, reset values
-                else {
-                    if (isReset) {
-                        spirit.isBlock = false;
-                        isTouched = false;
-                        spirit.isOnBlock = false;
-                        spirit.resetBorders();
-                        isReset = false;
+    public void checkBlock(boolean state) {
+        if (!state) intersectionTimer.stop();
+        else {
+            intersectionTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    // check if the spirit touches the block
+                    if (Main.spirit.getBoundsInParent().intersects(getBoundsInParent())) {
+                        Main.spirit.isBlock = true;
+                        isTouched = true;
+                        changeBorders(Main.spirit);
+                        isReset = true;
+                    }
+                    // if not touched, reset values
+                    else {
+                        if (isReset) {
+                            Main.spirit.isBlock = false;
+                            isTouched = false;
+                            Main.spirit.isOnBlock = false;
+                            Main.spirit.resetBorders();
+                            isReset = false;
+                        }
                     }
                 }
-            }
-        };
-        timer.start();
+            };
+            intersectionTimer.start();
+        }
     }
 
 
@@ -97,29 +106,29 @@ public class Block extends Rectangle {
     public void setupAnimation(double startPos, double endPos, MotionType motionType, double step) {
         motionStep = step;
         if (motionType == MotionType.HORIZONTAL) {
-            timer = new AnimationTimer() {
+            animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
                     if (getX()+motionStep >= endPos) motionStep *= -1;
                     else if (getX()+motionStep <= startPos) motionStep *= -1;
                     setX(getX() + motionStep);
                     if (isTouched) {
-                        spirit.setCenterX(spirit.getCenterX()+motionStep);
+                        Main.spirit.setCenterX(Main.spirit.getCenterX()+motionStep);
                     }
                 }
             };
         }
         else if (motionType == MotionType.VERTICAL) {
-            timer = new AnimationTimer() {
+            animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
                     if (getY()+motionStep >= endPos) motionStep *= -1;
                     else if (getY()+motionStep <= startPos) motionStep *= -1;
                     setY(getY() + motionStep);
                     if (isTouched) {
-                        spirit.setCenterY(spirit.getCenterY()+motionStep);
-                        spirit.setLowerBorder(spirit.getLowerBorder()+motionStep);
-                        spirit.setUpperBorder(spirit.getUpperBorder()+motionStep);
+                        Main.spirit.setCenterY(Main.spirit.getCenterY()+motionStep);
+                        Main.spirit.setLowerBorder(Main.spirit.getLowerBorder()+motionStep);
+                        Main.spirit.setUpperBorder(Main.spirit.getUpperBorder()+motionStep);
                     }
                 }
             };
@@ -133,11 +142,18 @@ public class Block extends Rectangle {
     public void animate(boolean state) {
         if (state) {
             isMoving = true;
-            timer.start();
+            animationTimer.start();
         }
         else {
             isMoving = false;
-            timer.stop();
+            animationTimer.stop();
+        }
+    }
+
+    public static void stopAnimationTimers() {
+        for (Block instance : instances) {
+            instance.intersectionTimer.stop();
+            if (instance.isMoving) instance.animationTimer.stop();
         }
     }
 

@@ -34,6 +34,8 @@ public class Spirit extends Circle {
     public boolean isReversed = false;
 
 
+
+
     /* >>>> constructors <<<< */
 
 
@@ -135,8 +137,8 @@ public class Spirit extends Circle {
         this.yStep = yStep;
     }
 
-    // gravity flipper
-    public void gravityFlip() {
+    // gravity reverse
+    public void reverseGravity() {
         GRAVITY *= -1;
         yStep *= -1;
         isReversed = !isReversed;
