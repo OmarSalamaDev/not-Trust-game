@@ -1,0 +1,38 @@
+.genericButton {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-family: Consolas;
+    -fx-padding: 10px 10px;
+    -fx-margin-top: 15px;
+    -fx-margin-bottom: 15px;
+    -fx-font-size: 30px;
+    -fx-min-width: 250px;
+    -fx-min-height: 40px;
+    -fx-background-radius: 20px;
+}
+
+.genericButton:hover {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 50, 0, 0, 0);
+}
+
+.genericButton-inverted {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-family: Consolas;
+    -fx-padding: 10px 10px;
+    -fx-margin-top: 15px;
+    -fx-margin-bottom: 15px;
+    -fx-font-size: 30px;
+    -fx-min-width: 250px;
+    -fx-min-height: 40px;
+    -fx-background-radius: 20px;
+
+}
+
+.genericButton-inverted:hover {
+    -fx-background-color: #000000;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 50, 0, 0, 0);
+}
