@@ -1,5 +1,3 @@
-
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Rectangle;
 
@@ -22,10 +20,17 @@ public class Block extends Rectangle {
     public AnimationTimer intersectionTimer;
     private AnimationTimer animationTimer;
     private double motionStep;
+    private boolean trollCheck = false;
 
-    public enum MotionType {
+
+    public enum MotionDirection {
         HORIZONTAL,
         VERTICAL
+    }
+
+    public enum MotionType {
+        ENDLESS,
+        END
     }
 
 
@@ -80,24 +85,24 @@ public class Block extends Rectangle {
 
     public void changeBorders(Spirit spirit) {
         // upper and lower edge
-        if (spirit.getCenterX()+R > getX()+5 && spirit.getCenterX()-R < getX()+W-5){
+        if (spirit.getCenterX() + R > getX() + 5 && spirit.getCenterX() - R < getX() + W - 5) {
             // the spirit is above the block
-            if (spirit.getCenterY()+R >= getY() && spirit.getCenterY()+R <= getY()+H/1.5) {
+            if (spirit.getCenterY() + R >= getY() && spirit.getCenterY() + R <= getY() + H / 1.5) {
                 spirit.isOnBlock = true;
                 spirit.setLowerBorder(getY());
             }
             // the spirit is under the block
             else {
-                spirit.setUpperBorder(getY()+getHeight());
+                spirit.setUpperBorder(getY() + getHeight());
             }
         }
         // left edge
-        else if (spirit.getCenterX()+R >= getX() && spirit.getCenterX()+R <= getX()+W/1.5) {
+        else if (spirit.getCenterX() + R >= getX() && spirit.getCenterX() + R <= getX() + W / 1.5) {
             spirit.setRightBorder(getX());
         }
         // right edge
-        else if (spirit.getCenterX()-R <= getX()+W && spirit.getCenterX()-R >= getX()+W/1.5) {
-            spirit.setLeftBorder(getX()+W);
+        else if (spirit.getCenterX() - R <= getX() + W && spirit.getCenterX() - R >= getX() + W / 1.5) {
+            spirit.setLeftBorder(getX() + W);
         }
     }
 
@@ -105,37 +110,72 @@ public class Block extends Rectangle {
     /* >>>> animation setup <<<< */
 
 
-    public void setupAnimation(double startPos, double endPos, MotionType motionType, double step) {
+    public void setupAnimation(double startPos, double endPos, MotionDirection motionDirection, MotionType motionType, double troll, double step) {
         motionStep = step;
-        if (motionType == MotionType.HORIZONTAL) {
+        if ((motionDirection == MotionDirection.HORIZONTAL) && (motionType == MotionType.ENDLESS)) {
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (getX()+motionStep >= endPos) motionStep *= -1;
-                    else if (getX()+motionStep <= startPos) motionStep *= -1;
+                    if (getX() + motionStep >= endPos) motionStep *= -1;
+                    else if (getX() + motionStep <= startPos) motionStep *= -1;
                     setX(getX() + motionStep);
                     if (isTouched) {
-                        Main.spirit.setCenterX(Main.spirit.getCenterX()+motionStep);
+                        Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
                     }
                 }
             };
         }
-        else if (motionType == MotionType.VERTICAL) {
+        else if ((motionDirection == MotionDirection.HORIZONTAL) && (motionType == MotionType.END)) {
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (getY()+motionStep >= endPos) motionStep *= -1;
-                    else if (getY()+motionStep <= startPos) motionStep *= -1;
-                    setY(getY() + motionStep);
+                    if (getX() + motionStep >= endPos) {
+                        animate(false);
+                    }
+                    setX(getX() + motionStep);
                     if (isTouched) {
-                        Main.spirit.setCenterY(Main.spirit.getCenterY()+motionStep);
-                        Main.spirit.setLowerBorder(Main.spirit.getLowerBorder()+motionStep);
-                        Main.spirit.setUpperBorder(Main.spirit.getUpperBorder()+motionStep);
+                        Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
                     }
                 }
             };
         }
+        else if ((motionDirection == MotionDirection.VERTICAL) && (motionType == MotionType.ENDLESS)) {
+            animationTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    if (getY() + motionStep >= endPos) motionStep *= -1;
+                    else if (getY() + motionStep <= startPos) motionStep *= -1;
+                    setY(getY() + motionStep);
+                    if (isTouched) {
+                        Main.spirit.setCenterY(Main.spirit.getCenterY() + motionStep);
+                        Main.spirit.setLowerBorder(Main.spirit.getLowerBorder() + motionStep);
+                        Main.spirit.setUpperBorder(Main.spirit.getUpperBorder() + motionStep);
+                    }
+                }
+            };
+        }
+        else if ((motionDirection == MotionDirection.VERTICAL) && (motionType == MotionType.END)) {
+            animationTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    if (Main.spirit.getCenterX() >= troll) trollCheck = true;
+                    if (trollCheck) {
+                        if (getY() + motionStep < endPos) {
+                            setY(getY() + motionStep);
+                            if (isTouched) {
+                                Main.spirit.setCenterY(Main.spirit.getCenterY() + motionStep);
+                                Main.spirit.setLowerBorder(Main.spirit.getLowerBorder() + motionStep);
+                                Main.spirit.setUpperBorder(Main.spirit.getUpperBorder() + motionStep);
+                            }
+                        }
+
+                    }
+                }
+            };
+
+        }
     }
+
 
 
     /* >>>> animation start/stop <<<< */
@@ -145,8 +185,7 @@ public class Block extends Rectangle {
         if (state) {
             isMoving = true;
             animationTimer.start();
-        }
-        else {
+        } else {
             isMoving = false;
             animationTimer.stop();
         }
@@ -156,9 +195,6 @@ public class Block extends Rectangle {
         for (Block instance : instances) {
             instance.intersectionTimer.stop();
             if (instance.isMoving) instance.animationTimer.stop();
-}
-}
-
-
-
+        }
+    }
 }

@@ -1,8 +1,7 @@
 
 
 import javafx.scene.layout.Pane;
-
-
+import javafx.scene.paint.Color;
 
 
 public class Levels {
@@ -21,6 +20,9 @@ public class Levels {
         Main.spirit.resetBorders();
         if (Main.spirit.isReversed) {
             Main.spirit.reverseGravity();
+        }
+        if (Main.spirit.isMirrored) {
+            Main.spirit.mirror();
         }
 
 
@@ -47,6 +49,7 @@ public class Levels {
             // lower border
             Block b2 = new Block(0, 500, 600, 100);
             b2.setFill(Main.blockColor);
+
             Block b3 = new Block(900, 500, 300, 100);
             b3.setFill(Main.blockColor);
 
@@ -62,12 +65,20 @@ public class Levels {
             Block b6 = new Block(720, 450, 50, 20);
             b6.setFill(Main.blockColor);
 
+            Block b7 = new Block(600, 500, 300, 100);
+            b7.setFill(Color.RED);
+            b7.setupAnimation(500, 600, Block.MotionDirection.VERTICAL, Block.MotionType.END, 500, 10);
+            b7.animate(true);
+
+            Door door = new Door(1000, 455);
+
             // trap
             Trap t1 = new Trap(600, 590, 300, 10);
             t1.setFill(Main.trapColor);
 
+
             // add all blocks to the root
-            levelRoot.getChildren().addAll(b1, b2, b3, b4, b5, b6, t1, Main.spirit);
+            levelRoot.getChildren().addAll(b1, b2, b3, b4, b5, b6, t1, b7, door, Main.spirit);
 
         }
 
@@ -97,8 +108,10 @@ public class Levels {
             // test block 6
             Block a6 = new Block(700, 200, 70, 80);
             a6.setFill(Main.blockColor);
-            a6.setupAnimation(200, 350, Block.MotionType.VERTICAL, 1);
+            a6.setupAnimation(200, 600, Block.MotionDirection.VERTICAL, Block.MotionType.END, 500, 1);
             a6.animate(true);
+
+            Door door = new Door(1000, 455);
 
             // test block 7
             Block a7 = new Block(500, 270, 70, 25);
@@ -106,12 +119,12 @@ public class Levels {
 
             // test block 7
             Trap t1 = new Trap(300, 300, 50, 50);
-            t1.setupAnimation(300, 350, Block.MotionType.HORIZONTAL, 1);
+            t1.setupAnimation(300, 350, Block.MotionDirection.VERTICAL, Block.MotionType.ENDLESS, 0, 1);
             t1.animate(true);
             t1.setFill(Main.trapColor);
             t1.setStartingPos(300, 200);
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a6, a7, t1, Main.spirit);
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a6, a7, t1, door, Main.spirit);
         }
 
 
@@ -137,16 +150,19 @@ public class Levels {
             Block rightBorder = new Block(1100, 100, 100, 400);
             rightBorder.setFill(Main.blockColor);
 
+            Door door = new Door(1000, 455);
+
             // test block 7
             Block a7 = new Block(200, 270, 70, 25);
             a7.setFill(Main.blockColor);
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a7, Main.spirit);
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a7, door, Main.spirit);
         }
 
         /* >>>> level 4 <<<< */
         else if (level == 4) {
             currentLevel = 4;
+            Main.spirit.mirror();
             Main.spirit.setCenterX(400);
             Main.spirit.setCenterY(Main.spirit.getLowerBorder() - 100 - Main.spirit.getRadius());
 
@@ -166,11 +182,13 @@ public class Levels {
             Block rightBorder = new Block(1100, 100, 100, 400);
             rightBorder.setFill(Main.blockColor);
 
+            Door door = new Door(1000, 455);
+
             // test block 7
             Block a7 = new Block(300, 270, 70, 25);
             a7.setFill(Main.blockColor);
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a7, Main.spirit);
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a7, door, Main.spirit);
         }
 
         /* >>>> level 5 <<<< */
@@ -195,11 +213,13 @@ public class Levels {
             Block rightBorder = new Block(1100, 100, 100, 400);
             rightBorder.setFill(Main.blockColor);
 
+            Door door = new Door(1000, 455);
+
             // test block 7
             Block a7 = new Block(400, 270, 70, 25);
             a7.setFill(Main.blockColor);
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, a7, Main.spirit);
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, door, a7, Main.spirit);
         }
 
         /* >>>> level 6 <<<< */

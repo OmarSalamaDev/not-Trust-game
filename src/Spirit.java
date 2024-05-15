@@ -33,6 +33,7 @@ public class Spirit extends Circle {
     public boolean isBlock = false;
     public boolean isOnBlock = false;
     public boolean isReversed = false;
+    public boolean isMirrored = false;
 
 
     /* >>>> constructors <<<< */
@@ -141,6 +142,12 @@ public class Spirit extends Circle {
         GRAVITY *= -1;
         yStep *= -1;
         isReversed = !isReversed;
+    }
+
+    // mirror
+    public void mirror() {
+        xStep *= -1;
+        isMirrored = !isMirrored;
     }
 
 

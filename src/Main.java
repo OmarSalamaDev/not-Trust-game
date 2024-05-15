@@ -31,8 +31,6 @@ public class Main extends Application {
         Image icon = new Image("media/icons/icon-1.png");
         primaryStage.getIcons().add(icon);
 
-
-
         backgroundColor = Color.rgb(138, 67, 132);
         blockColor = Color.rgb(64, 2, 58);
         spiritColor = Color.rgb(255, 255, 255);
@@ -47,7 +45,6 @@ public class Main extends Application {
 //        blockColor = Color.BLACK;
 //        spiritColor = Color.WHITE;
 //        trapColor = Color.rgb(163, 163, 163);
-
 
         // instantiate spirit object
         Main.spirit = new Spirit(10, Main.spiritColor);

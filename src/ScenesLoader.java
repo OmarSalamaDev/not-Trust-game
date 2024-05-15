@@ -385,10 +385,13 @@ public class ScenesLoader {
                 Main.spirit.setVx(-Main.spirit.getxStep());
             }
             else if (thisKey == KeyCode.SPACE && !Main.spirit.inAir && currentScene == 5) {
+                Sounds.soundOfJump();
                 Main.spirit.setVy(-Main.spirit.getyStep());
                 Main.spirit.inAir = true;
             }
-            else if (thisKey == KeyCode.SHIFT && currentScene == 5) {
+            else if (thisKey == KeyCode.SHIFT && currentScene == 5 && Levels.currentLevel == 3) {
+                if (Main.spirit.isReversed) Sounds.downReverseGravity();
+                else Sounds.upReverseGravity();
                 Main.spirit.reverseGravity();
                 Main.spirit.inAir = false;
             }
