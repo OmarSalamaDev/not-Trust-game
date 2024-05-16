@@ -13,6 +13,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
@@ -22,7 +23,6 @@ public class ScenesLoader {
 
     public static Stage primaryStage;
 
-    public static Scene introScene;
     public static Scene mainMenu;
     public static Scene levelSelectMenu;
     public static Scene optionsMenu;
@@ -44,7 +44,6 @@ public class ScenesLoader {
 
     public static void setupMenus(Stage stage) {
         primaryStage = stage;
-        introSceneSetup();
         mainMenuSetup();
         creditsMenuSetup();
         optionMenuSetup();
@@ -54,10 +53,10 @@ public class ScenesLoader {
     }
 
 
-    private static void introSceneSetup() {
+    public static Scene introScene() {
 
         StackPane introStackPane = new StackPane();
-        introScene = new Scene(introStackPane, 1200, 600);
+        Scene introScene = new Scene(introStackPane, 1200, 600);
         String path = "src/media/videos/clip-1.mp4";
         Media introMedia = new Media(new File(path).toURI().toString());
         MediaPlayer introMediaPlayer = new MediaPlayer(introMedia);
@@ -69,7 +68,7 @@ public class ScenesLoader {
             previousScene = 0;
             currentScene = 1;
         });
-
+        return introScene;
     }
 
 
@@ -393,25 +392,25 @@ public class ScenesLoader {
     //--> scene controls <--//
 
         levelScene.setOnKeyPressed(e -> {
-            KeyCode thisKey = e.getCode();
-            if (thisKey == KeyCode.RIGHT && currentScene == 5) {
+            KeyCode key = e.getCode();
+            if (key == KeyCode.RIGHT && currentScene == 5) {
                 Main.spirit.setVx(Main.spirit.getxStep());
             }
-            else if (thisKey == KeyCode.LEFT && currentScene == 5) {
+            else if (key == KeyCode.LEFT && currentScene == 5) {
                 Main.spirit.setVx(-Main.spirit.getxStep());
             }
-            else if (thisKey == KeyCode.SPACE && !Main.spirit.inAir && currentScene == 5) {
+            else if (key == KeyCode.SPACE && !Main.spirit.inAir && Main.spirit.isOnBlock && currentScene == 5) {
                 Sounds.soundOfJump();
                 Main.spirit.setVy(-Main.spirit.getyStep());
                 Main.spirit.inAir = true;
             }
-            else if (thisKey == KeyCode.SHIFT && currentScene == 5 && Levels.currentLevel == 3) {
+            else if (key == KeyCode.SHIFT && currentScene == 5 && Levels.currentLevel == 3) {
                 if (Main.spirit.isReversed) Sounds.downReverseGravity();
                 else Sounds.upReverseGravity();
                 Main.spirit.reverseGravity();
                 Main.spirit.inAir = false;
             }
-            else if (thisKey == KeyCode.ESCAPE && currentScene == 5) {
+            else if (key == KeyCode.ESCAPE && currentScene == 5) {
                 Sounds.soundOfButton();
                 gameRoot.getChildren().addAll(inGameMenu);
                 previousScene = 5;
@@ -487,12 +486,26 @@ public class ScenesLoader {
     }
 
 
+    public static Scene levelTransition(int levelNumber) {
+
+        StackPane stackPane = new StackPane();
+        stackPane.setBackground(Background.fill(Color.BLACK));
+        Scene scene = new Scene(stackPane, 1200, 600);
+        Text text = new Text("Level " + "<" + levelNumber + ">");
+        text.setFont(Font.font("Consolas",60));
+        text.setFill(Color.WHITE);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(200), text);
+        stackPane.getChildren().add(text);
+        //fadeTransition.
+        return scene;
+    }
+
+
     static void switchSceneSmoothly(Scene newScene) {
         FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), primaryStage.getScene().getRoot());
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.5);
         fadeOut.setOnFinished(event -> {
-
             FadeTransition fadeIn = new FadeTransition(Duration.millis(500), newScene.getRoot());
             fadeIn.setFromValue(0.5);
             primaryStage.setScene(newScene);

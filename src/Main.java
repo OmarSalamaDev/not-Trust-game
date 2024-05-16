@@ -67,7 +67,8 @@ public class Main extends Application {
         ScenesLoader.setupMenus(primaryStage);
 
         // play intro scene
-        primaryStage.setScene(ScenesLoader.introScene);
+        primaryStage.setScene(ScenesLoader.introScene());
+        //primaryStage.setScene(ScenesLoader.levelTransition(1));
 
 
 
