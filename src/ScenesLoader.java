@@ -110,24 +110,28 @@ public class ScenesLoader {
     //--> menu controls <--//
 
         startBtn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             switchSceneSmoothly(levelSelectMenu);
             previousScene = 1;
             currentScene = 2;
         });
 
         optionsBtn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             switchSceneSmoothly(optionsMenu);
             previousScene = 1;
             currentScene = 3;
         });
 
         creditsBtn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             switchSceneSmoothly(creditsMenu);
             previousScene = 1;
             currentScene = 4;
         });
 
         exitBtn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             primaryStage.close();
         });
     }
@@ -190,6 +194,7 @@ public class ScenesLoader {
     //--> menu controls <--//
 
         backBtn.setOnMouseClicked(e->{
+            Sounds.soundOfButton();
             switchSceneSmoothly(mainMenu);
             previousScene = 4;
             currentScene = 1;
@@ -197,6 +202,7 @@ public class ScenesLoader {
 
         creditsMenu.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
+                Sounds.soundOfButton();
                 switchSceneSmoothly(mainMenu);
                 previousScene = 4;
                 currentScene = 1;
@@ -222,6 +228,7 @@ public class ScenesLoader {
     //--> menu controls <--//
 
         backBtn.setOnMouseClicked(e->{
+            Sounds.soundOfButton();
             if (previousScene == 1) {
                 switchSceneSmoothly(mainMenu);
                 previousScene = 3;
@@ -236,6 +243,7 @@ public class ScenesLoader {
 
         optionsMenu.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
+                Sounds.soundOfButton();
                 if (previousScene == 1) {
                     switchSceneSmoothly(mainMenu);
                     previousScene = 3;
@@ -302,6 +310,7 @@ public class ScenesLoader {
     //--> menu controls <--//
 
         level1Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(1));
             switchSceneSmoothly(levelScene);
@@ -310,6 +319,7 @@ public class ScenesLoader {
         });
 
         level2Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(2));
             switchSceneSmoothly(levelScene);
@@ -318,6 +328,7 @@ public class ScenesLoader {
         });
 
         level3Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(3));
             switchSceneSmoothly(levelScene);
@@ -326,6 +337,7 @@ public class ScenesLoader {
         });
 
         level4Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(4));
             switchSceneSmoothly(levelScene);
@@ -334,6 +346,7 @@ public class ScenesLoader {
         });
 
         level5Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(5));
             switchSceneSmoothly(levelScene);
@@ -342,6 +355,7 @@ public class ScenesLoader {
         });
 
         level6Btn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().clear();
             gameRoot.getChildren().add(Levels.level(6));
             switchSceneSmoothly(levelScene);
@@ -350,6 +364,7 @@ public class ScenesLoader {
         });
 
         backBtn.setOnMouseClicked(e-> {
+            Sounds.soundOfButton();
             switchSceneSmoothly(mainMenu);
             previousScene = 2;
             currentScene = 1;
@@ -357,6 +372,7 @@ public class ScenesLoader {
 
         levelSelectMenu.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
+                Sounds.soundOfButton();
                 switchSceneSmoothly(mainMenu);
                 previousScene = 2;
                 currentScene = 1;
@@ -396,11 +412,13 @@ public class ScenesLoader {
                 Main.spirit.inAir = false;
             }
             else if (thisKey == KeyCode.ESCAPE && currentScene == 5) {
+                Sounds.soundOfButton();
                 gameRoot.getChildren().addAll(inGameMenu);
                 previousScene = 5;
                 currentScene = 6;
             }
             else if (e.getCode() == KeyCode.ESCAPE && currentScene == 6) {
+                Sounds.soundOfButton();
                 gameRoot.getChildren().remove(inGameMenu);
                 previousScene = 6;
                 currentScene = 5;
@@ -446,18 +464,21 @@ public class ScenesLoader {
     //--> scene controls <--//
 
         resumeBtn.setOnMouseClicked(e -> {
+            Sounds.soundOfButton();
             gameRoot.getChildren().remove(inGameMenu);
             previousScene = 6;
             currentScene = 5;
         });
 
         optionsBtn.setOnMouseClicked(e->{
+            Sounds.soundOfButton();
             switchSceneSmoothly(optionsMenu);
             previousScene = 6;
             currentScene = 3;
         });
 
         mainMenuBtn.setOnMouseClicked(e->{
+            Sounds.soundOfButton();
             switchSceneSmoothly(mainMenu);
             previousScene = 6;
             currentScene = 1;;

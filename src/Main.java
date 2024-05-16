@@ -14,10 +14,14 @@ public class Main extends Application {
 
     public static Spirit spirit;
 
-    public static Paint backgroundColor;
-    public static Paint blockColor;
-    public static Paint spiritColor;
-    public static Paint trapColor;
+    public static Paint backgroundColor = Color.rgb(138, 67, 132);
+    public static Paint blockColor = Color.rgb(64, 2, 58);
+    public static Paint spiritColor = Color.rgb(255, 255, 255);
+    public static Paint trapColor = Color.rgb(249, 115, 0);
+
+    public static String spikeImagePath = "media/images/trap-1.png";
+
+    public static boolean mute = true;
 
 
     @Override
@@ -31,10 +35,17 @@ public class Main extends Application {
         Image icon = new Image("media/icons/icon-1.png");
         primaryStage.getIcons().add(icon);
 
-        backgroundColor = Color.rgb(138, 67, 132);
-        blockColor = Color.rgb(64, 2, 58);
-        spiritColor = Color.rgb(255, 255, 255);
-        trapColor = Color.rgb(249, 115, 0);
+
+
+
+
+
+//        backgroundColor = Color.rgb(138, 67, 132);
+//        blockColor = Color.rgb(64, 2, 58);
+//        spiritColor = Color.rgb(255, 255, 255);
+//        trapColor = Color.rgb(249, 115, 0);
+
+
 
 //        backgroundColor = Color.rgb(136, 156, 191);
 //        blockColor = Color.rgb(0, 32, 84);
@@ -46,9 +57,11 @@ public class Main extends Application {
 //        spiritColor = Color.WHITE;
 //        trapColor = Color.rgb(163, 163, 163);
 
+
+
         // instantiate spirit object
         Main.spirit = new Spirit(10, Main.spiritColor);
-        Main.spirit.setDefaultBorders(0, 600, 1200,0);
+        Main.spirit.setDefaultBorders(0, 700, 1200,0);
 
         // setup menus and scenes
         ScenesLoader.setupMenus(primaryStage);
