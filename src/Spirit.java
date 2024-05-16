@@ -32,6 +32,7 @@ public class Spirit extends Circle {
 
     public boolean isBlock = false;
     public boolean isOnBlock = false;
+    public boolean isUnderBlock = false;
     public boolean isReversed = false;
     public boolean isMirrored = false;
 

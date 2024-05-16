@@ -1,6 +1,6 @@
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +69,7 @@ public class Block extends Rectangle {
                             Main.spirit.isBlock = false;
                             isTouched = false;
                             Main.spirit.isOnBlock = false;
+                            Main.spirit.isUnderBlock = false;
                             Main.spirit.resetBorders();
                             isReset = false;
                         }
@@ -94,6 +95,7 @@ public class Block extends Rectangle {
             // the spirit is under the block
             else {
                 spirit.setUpperBorder(getY() + getHeight());
+                spirit.isUnderBlock = true;
             }
         }
         // left edge
@@ -129,12 +131,15 @@ public class Block extends Rectangle {
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (getX() + motionStep >= endPos) {
-                        animate(false);
-                    }
-                    setX(getX() + motionStep);
-                    if (isTouched) {
-                        Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
+                    if (Main.spirit.getCenterX() >= troll) trollCheck = true;
+                    if (trollCheck) {
+                        if ((getX() + motionStep < endPos) && (getX() + motionStep > startPos)) {
+                            setX(getX() + motionStep);
+                            if (isTouched) {
+                                Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
+                            }
+                        }
+
                     }
                 }
             };

@@ -1,3 +1,8 @@
+
+
+/* >>>> buttons styling <<<< */
+
+
 .genericButton {
     -fx-background-color: black;
     -fx-text-fill: white;
@@ -17,22 +22,36 @@
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 50, 0, 0, 0);
 }
 
-.genericButton-inverted {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #000000;
-    -fx-font-family: Consolas;
-    -fx-padding: 10px 10px;
-    -fx-margin-top: 15px;
-    -fx-margin-bottom: 15px;
-    -fx-font-size: 30px;
-    -fx-min-width: 250px;
-    -fx-min-height: 40px;
-    -fx-background-radius: 20px;
 
-}
+/* >>>> radio-buttons styling <<<< */
 
-.genericButton-inverted:hover {
+
+.radio-button > .radio {
     -fx-background-color: #000000;
-    -fx-text-fill: #ffffff;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 50, 0, 0, 0);
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 50%;
+    -fx-padding: 5px;
 }
+
+.radio-button:selected > .radio {
+    -fx-background-color: #ffffff;
+}
+
+
+/* >>>> check-box styling <<<< */
+
+
+.check-box {
+    -fx-font-size: 15px;
+}
+
+.check-box > .box {
+    -fx-background-color: #000000;
+    -fx-border-color: #ffffff;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: #ffffff;
+}
+
+

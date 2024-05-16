@@ -6,7 +6,6 @@ import javafx.scene.paint.ImagePattern;
 
 public class Door extends Block {
 
-
     public Door(double x, double y) {
         super(x, y, 30, 45);
         Image img = new Image("media/images/door.png");
@@ -22,7 +21,6 @@ public class Door extends Block {
                 public void handle(long l) {
                     if (Main.spirit.getBoundsInParent().intersects(getBoundsInParent())) {
                         Sounds.soundOfWin();
-                        ScenesLoader.switchSceneSmoothly(ScenesLoader.levelTransition(Levels.currentLevel + 1));
                         ScenesLoader.gameRoot.getChildren().clear();
                         ScenesLoader.gameRoot.getChildren().add(Levels.level(Levels.currentLevel + 1));
                     }
