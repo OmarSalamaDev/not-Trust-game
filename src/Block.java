@@ -20,7 +20,6 @@ public class Block extends Rectangle {
     public AnimationTimer intersectionTimer;
     private AnimationTimer animationTimer;
     private double motionStep;
-    private boolean trollCheck = false;
 
 
     public enum MotionDirection {
@@ -34,9 +33,7 @@ public class Block extends Rectangle {
     }
 
 
-    /* >>>> constructors <<<< */
-
-
+    // >>>> constructor <<<< //
     public Block(double x, double y, double width, double height) {
         super(x, y, width, height);
         R = Main.spirit.getRadius();
@@ -47,9 +44,7 @@ public class Block extends Rectangle {
     }
 
 
-    /* >>>> check for blocks <<<<*/
-
-
+    // >>>> check for blocks <<<< //
     public void checkBlock(boolean state) {
         if (!state) intersectionTimer.stop();
         else {
@@ -81,9 +76,7 @@ public class Block extends Rectangle {
     }
 
 
-    /* >>>> change borders <<<< */
-
-
+    // >>>> change borders <<<< //
     public void changeBorders(Spirit spirit) {
         // upper and lower edge
         if (spirit.getCenterX() + R > getX() + 5 && spirit.getCenterX() - R < getX() + W - 5) {
@@ -109,10 +102,8 @@ public class Block extends Rectangle {
     }
 
 
-    /* >>>> animation setup <<<< */
-
-
-    public void setupAnimation(double startPos, double endPos, MotionDirection motionDirection, MotionType motionType, double troll, double step) {
+    // >>>> animation setup <<<< //
+    public void setupAnimation(double startPos, double endPos, MotionDirection motionDirection, MotionType motionType, double step) {
         motionStep = step;
         if ((motionDirection == MotionDirection.HORIZONTAL) && (motionType == MotionType.ENDLESS)) {
             animationTimer = new AnimationTimer() {
@@ -131,15 +122,11 @@ public class Block extends Rectangle {
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (Main.spirit.getCenterX() >= troll) trollCheck = true;
-                    if (trollCheck) {
-                        if ((getX() + motionStep < endPos) && (getX() + motionStep > startPos)) {
-                            setX(getX() + motionStep);
-                            if (isTouched) {
-                                Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
-                            }
+                    if ((getX() + motionStep < endPos) && (getX() + motionStep > startPos)) {
+                        setX(getX() + motionStep);
+                        if (isTouched) {
+                            Main.spirit.setCenterX(Main.spirit.getCenterX() + motionStep);
                         }
-
                     }
                 }
             };
@@ -163,17 +150,13 @@ public class Block extends Rectangle {
             animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (Main.spirit.getCenterX() >= troll) trollCheck = true;
-                    if (trollCheck) {
-                        if (getY() + motionStep < endPos) {
-                            setY(getY() + motionStep);
-                            if (isTouched) {
-                                Main.spirit.setCenterY(Main.spirit.getCenterY() + motionStep);
-                                Main.spirit.setLowerBorder(Main.spirit.getLowerBorder() + motionStep);
-                                Main.spirit.setUpperBorder(Main.spirit.getUpperBorder() + motionStep);
-                            }
+                    if (getY() + motionStep < endPos && (getY() + motionStep > startPos)) {
+                        setY(getY() + motionStep);
+                        if (isTouched) {
+                            Main.spirit.setCenterY(Main.spirit.getCenterY() + motionStep);
+                            Main.spirit.setLowerBorder(Main.spirit.getLowerBorder() + motionStep);
+                            Main.spirit.setUpperBorder(Main.spirit.getUpperBorder() + motionStep);
                         }
-
                     }
                 }
             };
@@ -182,10 +165,7 @@ public class Block extends Rectangle {
     }
 
 
-
-    /* >>>> animation start/stop <<<< */
-
-
+    // >>>> animation start/stop <<<< //
     public void animate(boolean state) {
         if (state) {
             isMoving = true;
@@ -196,6 +176,8 @@ public class Block extends Rectangle {
         }
     }
 
+
+    // >>>> stopAllTimers <<<< //
     public static void stopAnimationTimers() {
         for (Block instance : instances) {
             instance.intersectionTimer.stop();

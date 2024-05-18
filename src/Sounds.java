@@ -1,57 +1,88 @@
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
+
+import java.io.File;
 
 
 public class Sounds {
 
 
+    static MediaPlayer media;
+    public static boolean audioState = true;
 
 
     public static void soundOfJump() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/jump_66.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
+        Media sound = new Media(new File("src/media/audio/jump.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
+        if(audioState) {
+            media.play();
+        }
+        else {
+            media.pause();
+        }
     }
+
 
     public static void soundOfDeath() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/Death_92.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
+        Media sound = new Media(new File("src/media/audio/death.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
         media.setVolume(0.2);
-        media.play();
+        if(audioState){
+            media.play();
+        }
+        else{
+            media.pause();
+        }
     }
+
 
     public static void downReverseGravity() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/revflip.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
+        Media sound = new Media(new File("src/media/audio/revflip.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
+        if(audioState){
+            media.play();
+        }
+        else{
+            media.pause();
+        }
 
     }
+
 
     public static void upReverseGravity() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/up.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
-
-
+        Media sound = new Media(new File("src/media/audio/up.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
+        if(audioState){
+            media.play();
+        }
+        else{
+            media.pause();
+        }
     }
 
-    public static void soundOfTeleport() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/Teleport_37.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
-
-    }
 
     public static void soundOfWin() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/win.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
+        Media sound = new Media(new File("src/media/audio/Win.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
+        if(audioState){
+            media.play();
+        }
+        else{
+            media.pause();
+        }
     }
 
+
     public static void soundOfButton() {
-        Media sound = new Media("file:///C:/Users/Mars/Desktop/Project/src/media/audio/button-click.mp3");
-        MediaPlayer media = new MediaPlayer(sound);
-        media.play();
+        Media sound = new Media(new File("src/media/audio/button-click.mp3").toURI().toString());
+        media = new MediaPlayer(sound);
+        if(audioState){
+            media.play();
+        }
+        else{
+            media.pause();
+        }
     }
+
+
 }

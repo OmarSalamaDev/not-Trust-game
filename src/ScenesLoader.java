@@ -1,11 +1,8 @@
-
-
 import javafx.animation.FadeTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
@@ -13,7 +10,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -45,6 +41,10 @@ public class ScenesLoader {
     // 6 -> in game menu
 
 
+    static int themeNum;
+
+
+
     public static void setupMenus(Stage stage) {
         primaryStage = stage;
         mainMenuSetup();
@@ -60,8 +60,7 @@ public class ScenesLoader {
 
         StackPane introStackPane = new StackPane();
         Scene introScene = new Scene(introStackPane, 1200, 600);
-        String path = "src/media/videos/clip-1.mp4";
-        Media introMedia = new Media(new File(path).toURI().toString());
+        Media introMedia = new Media(new File("src/media/videos/clip-1.mp4").toURI().toString());
         MediaPlayer introMediaPlayer = new MediaPlayer(introMedia);
         introMediaPlayer.play();
         MediaView introMediaView = new MediaView(introMediaPlayer);
@@ -228,39 +227,30 @@ public class ScenesLoader {
         //--> menu elements <--//
 
         Label audio = new Label("Audio");
-        audio.setFont(Font.font("Consolas",30));
+        audio.setFont(Font.font("Consolas",40));
         audio.setTextFill(Color.WHITE);
-
-        Label noThemes = new Label("unable settings");
-        noThemes.setFont(Font.font("Consolas",30));
-        noThemes.setTextFill(Color.WHITE);
 
         CheckBox checkBox = new CheckBox();
         checkBox.setId("checkBox");
         checkBox.getStyleClass().add("checkBox");
+        checkBox.setSelected(Sounds.audioState);
 
         HBox hBox1 = new HBox(30);
         hBox1.getChildren().addAll(audio,checkBox);
         hBox1.setAlignment(Pos.CENTER);
 
-        Label themesLabel = new Label("Themes");
-        themesLabel.setFont(Font.font("Consolas",30));
-        themesLabel.setTextFill(Color.WHITE);
+        Label themes = new Label("Themes");
+        themes.setFont(Font.font("Consolas",40));
+        themes.setTextFill(Color.WHITE);
 
-        RadioButton theme1Btn = new RadioButton("1");
-        theme1Btn.setId("radio-button");
+        RadioButton theme1Btn = new RadioButton("Theme 1");
         theme1Btn.setTextFill(Color.WHITE);
-        theme1Btn.setFont(Font.font("Consolas",20));
-
-        RadioButton theme2Btn = new RadioButton("2");
-        theme2Btn.setId("radio-button");
+        
+        RadioButton theme2Btn = new RadioButton("Theme 2");
         theme2Btn.setTextFill(Color.WHITE);
-        theme2Btn.setFont(Font.font("Consolas",20));
-
-        RadioButton theme3Btn = new RadioButton("3");
-        theme3Btn.setId("radio-button");
+        
+        RadioButton theme3Btn = new RadioButton("Theme 3");
         theme3Btn.setTextFill(Color.WHITE);
-        theme3Btn.setFont(Font.font("Consolas",20));
 
         ToggleGroup themesGroup = new ToggleGroup();
         theme1Btn.setToggleGroup(themesGroup);
@@ -268,11 +258,8 @@ public class ScenesLoader {
         theme3Btn.setToggleGroup(themesGroup);
 
         HBox hBox2 = new HBox(30);
-        hBox2.getChildren().addAll(themesLabel,theme1Btn,theme2Btn,theme3Btn);
+        hBox2.getChildren().addAll(themes,theme1Btn,theme2Btn,theme3Btn);
         hBox2.setAlignment(Pos.CENTER);
-
-        StackPane preview = new StackPane();
-        preview.setPrefSize(512.25,291.75);
 
         ImageView image1 = new ImageView("media/images/theme-1.png");
         image1.setFitWidth(512.25);
@@ -286,18 +273,33 @@ public class ScenesLoader {
         image3.setFitWidth(512.25);
         image3.setFitHeight(291.75);
 
-        preview.getChildren().add(image1);
+        StackPane preview = new StackPane();
+        preview.setPrefSize(512.25,291.75);
+
+        if(themeNum == 1) {
+            theme1Btn.setSelected(true);
+            preview.getChildren().add(image1);
+        }
+        else if(themeNum == 2) {
+            theme2Btn.setSelected(true);
+            preview.getChildren().add(image2);
+        }
+        else if(themeNum == 3) {
+            theme3Btn.setSelected(true);
+            preview.getChildren().add(image3);
+        }
 
         Button backBtn = new Button("back");
         backBtn.setId("genericButton");
         backBtn.getStyleClass().add("genericButton");
 
-        Button okBtn = new Button("Ok");
-        okBtn.setId("genericButton");
-        okBtn.getStyleClass().add("genericButton");
+        Button applyBtn = new Button("Apply");
+        applyBtn.setDisable(true);
+        applyBtn.setId("genericButton");
+        applyBtn.getStyleClass().add("genericButton");
 
         HBox hBox3 = new HBox(450);
-        hBox3.getChildren().addAll(backBtn,okBtn);
+        hBox3.getChildren().addAll(backBtn,applyBtn);
         hBox3.setAlignment(Pos.CENTER);
 
         VBox vBox = new VBox(30);
@@ -312,59 +314,68 @@ public class ScenesLoader {
 
         //--> menu controls <--//
 
-        theme1Btn.setOnAction(e1->{
+        theme1Btn.setOnAction(e1 -> {
             Sounds.soundOfButton();
             preview.getChildren().clear();
             preview.getChildren().add(image1);
-            okBtn.setOnAction(e2->{
+            applyBtn.setDisable(false);
+            applyBtn.setOnAction(e2->{
                 Sounds.soundOfButton();
-                Main.backgroundColor = Color.rgb(138, 67, 132);
-                Main.blockColor = Color.rgb(64, 2, 58);
-                Main.trapColor = Color.rgb(249, 115, 0);
-                Main.spikeImagePath = "media/images/trap-1.png";
+                Main.theme1();
+                themeNum = 1;
+                Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
+                applyBtn.setDisable(true);
             });
         });
 
-        theme2Btn.setOnAction(e1->{
+        theme2Btn.setOnAction(e1 -> {
             Sounds.soundOfButton();
             preview.getChildren().clear();
             preview.getChildren().add(image2);
-            okBtn.setOnAction(e2->{
+            applyBtn.setDisable(false);
+            applyBtn.setOnAction(e2->{
                 Sounds.soundOfButton();
-                Main.backgroundColor = Color.rgb(136, 156, 191);
-                Main.blockColor = Color.rgb(0, 32, 84);
-                Main.trapColor = Color.rgb(224, 7, 13);
-                Main.spikeImagePath = "media/images/trap-2.png";
+                Main.theme2();
+                themeNum = 2;
+                Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
+                applyBtn.setDisable(true);
             });
         });
 
-        theme3Btn.setOnAction(e->{
+        theme3Btn.setOnAction(e1 -> {
             Sounds.soundOfButton();
             preview.getChildren().clear();
             preview.getChildren().add(image3);
-            okBtn.setOnAction(e2->{
+            applyBtn.setDisable(false);
+            applyBtn.setOnAction(e2->{
                 Sounds.soundOfButton();
-                Main.backgroundColor = Color.rgb(76, 75, 76);
-                Main.blockColor = Color.BLACK;
-                Main.trapColor = Color.rgb(163, 163, 163);
-                Main.spikeImagePath = "media/images/trap-3.png";
+                Main.theme3();
+                themeNum = 3;
+                Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
+                applyBtn.setDisable(true);
             });
         });
 
-        okBtn.setOnAction(e -> {
+        checkBox.setOnAction(e -> {
             Sounds.soundOfButton();
-            preview.getChildren().clear();
-            preview.getChildren().add(noThemes);
+            applyBtn.setDisable(false);
+            applyBtn.setOnAction(e2->{
+                Sounds.audioState = !Sounds.audioState;
+                Sounds.soundOfButton();
+                Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
+                applyBtn.setDisable(true);
+            });
         });
 
         backBtn.setOnMouseClicked(e -> {
-            Sounds.soundOfButton();
             if (previousScene == 1 && currentScene == 3) {
+                Sounds.soundOfButton();
                 switchSceneSmoothly(mainMenu);
                 previousScene = 3;
                 currentScene = 1;
             }
             else if (previousScene == 6 && currentScene == 3) {
+                Sounds.soundOfButton();
                 switchSceneSmoothly(levelScene);
                 previousScene = 3;
                 currentScene = 6;
@@ -377,12 +388,13 @@ public class ScenesLoader {
 
         optionsMenu.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
-                Sounds.soundOfButton();
                 if (previousScene == 1 && currentScene == 3) {
+                    Sounds.soundOfButton();
                     switchSceneSmoothly(mainMenu);
                     previousScene = 3;
                     currentScene = 1;
                 } else if (previousScene == 6 && currentScene == 3) {
+                    Sounds.soundOfButton();
                     switchSceneSmoothly(levelScene);
                     previousScene = 3;
                     currentScene = 6;
@@ -658,17 +670,6 @@ public class ScenesLoader {
         });
         fadeOut.play();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
