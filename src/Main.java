@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -31,20 +32,24 @@ public class Main extends Application {
         // setup stage
         primaryStage.show();
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Project");
+        primaryStage.setTitle("!Trust");
         Image icon = new Image("media/icons/icon-1.png");
-        primaryStage.getIcons().add(icon);
+         primaryStage.getIcons().add(icon);
 
 
         // instantiate spirit object
         spirit = new Spirit(10, spiritColor);
-        spirit.setDefaultBorders(-10, 700, 1300, 0);
+        spirit.setDefaultBorders(-10, 700, 1200, 0);
 
         // setup menus and scenes
         ScenesLoader.setupMenus(primaryStage);
 
         // play intro scene
         primaryStage.setScene(ScenesLoader.introScene());
+        //to skip intro
+//        ScenesLoader.currentScene = 2;
+//        ScenesLoader.previousScene = 1;
+//        primaryStage.setScene(ScenesLoader.levelSelectMenu);
 
     }
 
@@ -77,7 +82,7 @@ public class Main extends Application {
     }
 
 
-    public static void writeToFile ( int themeNumber, boolean audioState){
+    public static void writeToFile ( int themeNumber, boolean audioState) {
         String audio;
         if (audioState) audio = "1";
         else {

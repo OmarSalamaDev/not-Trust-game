@@ -4,7 +4,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
 
-public class Sounds {
+public final class Sounds {
 
 
     static MediaPlayer media;

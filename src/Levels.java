@@ -4,12 +4,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 
-public class Levels {
+public final class Levels {
 
     public static int currentLevel;
 
-    static boolean created = true;
-    static boolean blockCreated = true;
+
 
     // level root
     public static Pane levelRoot = new Pane();
@@ -33,10 +32,6 @@ public class Levels {
         if (isLeveltimerOn) {
             levelTimer.stop();
             isLeveltimerOn = false;
-        }
-        if(!created||!blockCreated){
-            created = true;
-            blockCreated = true;
         }
         Main.spirit.setVx(0);
         Main.spirit.setVy(0);
@@ -465,8 +460,8 @@ public class Levels {
             Main.spirit.setVy(0);
             currentLevel = 6;
             Main.spirit.reverseGravity();
-            Main.spirit.setCenterX(80);
-            Main.spirit.setCenterY(80);
+            Main.spirit.setCenterX(1100);
+            Main.spirit.setCenterY(180);
 
             // upper border
             Block upperBorder = new Trap(0, -10, 1200, 1);
@@ -632,10 +627,11 @@ public class Levels {
             door.setRotate(180);
             door.setupAnimation(290, 490, Block.MotionDirection.VERTICAL, Block.MotionType.END, 15);
 
-            Block b22 = new Block(849,315,80,25);
-            b22.setFill(Main.blockColor);
+
 
             levelTimer = new AnimationTimer() {
+                boolean created = true;
+                boolean blockCreated = true;
                 @Override
                 public void handle(long l) {
                     if (Main.spirit.getCenterX() == 120) s1.animate(true);
@@ -654,6 +650,9 @@ public class Levels {
 
                         b21.animate(true);
                         door.animate(true);
+                        Block b22 = new Block(849,315,80,25);
+                        b22.setFill(Main.blockColor);
+                        levelRoot.getChildren().add(b22);
                     }
                     if((Main.spirit.getCenterX()>=850&&Main.spirit.getCenterX()<=980)&&(Main.spirit.getCenterY()>=345&&Main.spirit.getCenterY()<=450)&&created){
                         Block s17 = new Spikes(880,340);
@@ -676,7 +675,7 @@ public class Levels {
 
             levelRoot.getChildren().addAll(upperBorder, leftBorder, rightBorder,
                     B1,B3,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,
-                    b16,b17,b18,b19,b20,b21,b22,
+                    b16,b17,b18,b19,b20,b21,
                     s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,
                     b_7,
                     door,

@@ -40,20 +40,17 @@ public class Spirit extends Circle {
     /* >>>> constructors <<<< */
 
 
-    public Spirit(double radius) {
-        super(radius);
-    }
+
     public Spirit(double radius, Paint paint) {
         super(radius, paint);
         enableMotion();
     }
-    public Spirit() {
-        enableMotion();
-    }
+
     public Spirit(double centerX, double centerY, double radius) {
         super(centerX, centerY, radius);
         enableMotion();
     }
+
     public Spirit(double centerX, double centerY, double radius, Paint paint) {
         super(centerX, centerY, radius, paint);
         enableMotion();
@@ -197,27 +194,27 @@ public class Spirit extends Circle {
         setCenterY(newY);
     }
 
-
-    /* >>>> deformation functions <<<< */
-
-
-    public void xDeformation(double factor) {
-        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
-        deformationAnimation.setFromX(1);
-        deformationAnimation.setToX(factor);
-        deformationAnimation.setAutoReverse(true);
-        deformationAnimation.setCycleCount(2);
-        deformationAnimation.play();
-
-    }
-    public void yDeformation(double factor) {
-        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
-        deformationAnimation.setFromY(1);
-        deformationAnimation.setToY(factor);
-        deformationAnimation.setAutoReverse(true);
-        deformationAnimation.setCycleCount(2);
-        deformationAnimation.play();
-    }
+//
+//    /* >>>> deformation functions <<<< */
+//
+//
+//    public void xDeformation(double factor) {
+//        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
+//        deformationAnimation.setFromX(1);
+//        deformationAnimation.setToX(factor);
+//        deformationAnimation.setAutoReverse(true);
+//        deformationAnimation.setCycleCount(2);
+//        deformationAnimation.play();
+//
+//    }
+//    public void yDeformation(double factor) {
+//        ScaleTransition deformationAnimation = new ScaleTransition(Duration.millis(100), this);
+//        deformationAnimation.setFromY(1);
+//        deformationAnimation.setToY(factor);
+//        deformationAnimation.setAutoReverse(true);
+//        deformationAnimation.setCycleCount(2);
+//        deformationAnimation.play();
+//    }
 
 
     /* >>>> enable motion for the object  <<<< */

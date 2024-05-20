@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.Objects;
 
 
-public class ScenesLoader {
+public final class ScenesLoader {
 
     public static Stage primaryStage;
 
@@ -42,8 +42,7 @@ public class ScenesLoader {
 
 
     static int themeNum;
-
-
+    
 
     public static void setupMenus(Stage stage) {
         primaryStage = stage;
@@ -173,14 +172,14 @@ public class ScenesLoader {
         HBox h1 = new HBox(label);
 
         Label names = new Label(
-                "Ahmed El-Sherbiny Othman"
-                        +"\n"+"Ayman Yasser Ahmed"
-                        +"\n"+"Hazem Sherif Mohamed"
-                        +"\n"+"Hamed Islam Ahmed"
-                        +"\n"+"Hamdi Emad Hamdi"
-                        +"\n"+"Omar Abdulaziz Muhammad"
-                        +"\n"+"Mazen Yasser Refaat"
-                        +"\n"+"Mohamed Adel Mohamed"
+                "Ahmed El-Sherbiny"
+                        +"\n"+"Ayman Yasser"
+                        +"\n"+"Hazem Radwan"
+                        +"\n"+"Hamed El-Shabrawiny"
+                        +"\n"+"Hamdi Al-Gohary"
+                        +"\n"+"Omar Salama"
+                        +"\n"+"Mazen Mashaal"
+                        +"\n"+"Mohamed Adel"
         );
         names.setFont(Font.font("Consolas",20));
         names.setTextFill(Color.WHITE);
@@ -245,10 +244,10 @@ public class ScenesLoader {
 
         RadioButton theme1Btn = new RadioButton("Theme 1");
         theme1Btn.setTextFill(Color.WHITE);
-        
+
         RadioButton theme2Btn = new RadioButton("Theme 2");
         theme2Btn.setTextFill(Color.WHITE);
-        
+
         RadioButton theme3Btn = new RadioButton("Theme 3");
         theme3Btn.setTextFill(Color.WHITE);
 
@@ -261,6 +260,9 @@ public class ScenesLoader {
         hBox2.getChildren().addAll(themes,theme1Btn,theme2Btn,theme3Btn);
         hBox2.setAlignment(Pos.CENTER);
 
+        StackPane preview = new StackPane();
+
+
         ImageView image1 = new ImageView("media/images/theme-1.png");
         image1.setFitWidth(512.25);
         image1.setFitHeight(291.75);
@@ -270,11 +272,10 @@ public class ScenesLoader {
         image2.setFitHeight(291.75);
 
         ImageView image3 = new ImageView("media/images/theme-3.png");
-        image3.setFitWidth(512.25);
+           image3.setFitWidth(512.25);
         image3.setFitHeight(291.75);
 
-        StackPane preview = new StackPane();
-        preview.setPrefSize(512.25,291.75);
+
 
         if(themeNum == 1) {
             theme1Btn.setSelected(true);
@@ -319,7 +320,7 @@ public class ScenesLoader {
             preview.getChildren().clear();
             preview.getChildren().add(image1);
             applyBtn.setDisable(false);
-            applyBtn.setOnAction(e2->{
+            applyBtn.setOnAction(e -> {
                 Sounds.soundOfButton();
                 Main.theme1();
                 themeNum = 1;
@@ -358,13 +359,9 @@ public class ScenesLoader {
 
         checkBox.setOnAction(e -> {
             Sounds.soundOfButton();
-            applyBtn.setDisable(false);
-            applyBtn.setOnAction(e2->{
-                Sounds.audioState = !Sounds.audioState;
-                Sounds.soundOfButton();
-                Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
-                applyBtn.setDisable(true);
-            });
+            Sounds.audioState = !Sounds.audioState;
+            Sounds.soundOfButton();
+            Main.writeToFile(ScenesLoader.themeNum,Sounds.audioState);
         });
 
         backBtn.setOnMouseClicked(e -> {
@@ -405,7 +402,6 @@ public class ScenesLoader {
                 }
             }
         });
-
     }
 
 
@@ -661,7 +657,6 @@ public class ScenesLoader {
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.5);
         fadeOut.setOnFinished(event -> {
-
             FadeTransition fadeIn = new FadeTransition(Duration.millis(500), newScene.getRoot());
             fadeIn.setFromValue(0.5);
             primaryStage.setScene(newScene);
