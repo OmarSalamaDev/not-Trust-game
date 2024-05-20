@@ -1,3 +1,5 @@
+
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -7,8 +9,6 @@ import javafx.scene.paint.Color;
 public final class Levels {
 
     public static int currentLevel;
-
-
 
     // level root
     public static Pane levelRoot = new Pane();
@@ -171,58 +171,63 @@ public final class Levels {
             leftBorder.setFill(Main.blockColor);
 
             // right border
-            Block s1 = new Spikes(1100, 120);
-            s1.setRotate(270);
-            Block s2 = new Spikes(1100, 170);
-            s2.setRotate(270);
-            Block s3 = new Spikes(1100, 220);
-            s3.setRotate(270);
-            Block s4 = new Spikes(1100, 270);
-            s4.setRotate(270);
-            Block s5 = new Spikes(1100, 320);
-            s5.setRotate(270);
-            Block s6 = new Spikes(1100, 370);
-            s6.setRotate(270);
-            Block s7 = new Spikes(1100, 410);
-            s7.setRotate(270);
-            Block s9 = new Spikes(1100, 530);
-            s9.setRotate(270);
-            Block s10 = new Spikes(1100, 580);
-            s10.setRotate(270);
 
+            Block b = new Block(1000, 0, 100, 100);
+            b.setFill(Main.blockColor);
+            b.setupAnimation(1000, 1100, Block.MotionDirection.HORIZONTAL, Block.MotionType.END, 10);
 
-            Block b1 = new Block(330, 450, 70, 150);
+            Block b1 = new Block(1130, 0, 70, 440);
             b1.setFill(Main.blockColor);
 
-            Block b2 = new Block(530, 400, 70, 200);
+            Block b2 = new Block(1130, 498, 70, 110);
             b2.setFill(Main.blockColor);
 
-            Block b3 = new Block(700, 500, 120, 100);
+            Block s1 = new Spikes(1100, 100);
+            s1.setRotate(270);
+            Block s2 = new Spikes(1100, 150);
+            s2.setRotate(270);
+            Block s3 = new Spikes(1100, 200);
+            s3.setRotate(270);
+            Block s4 = new Spikes(1100, 250);
+            s4.setRotate(270);
+            Block s5 = new Spikes(1100, 300);
+            s5.setRotate(270);
+            Block s6 = new Spikes(1100, 350);
+            s6.setRotate(270);
+            Block s7 = new Spikes(1100, 400);
+            s7.setRotate(270);
+            Block s8 = new Spikes(1100, 528);
+            s8.setRotate(270);
+            Block s9 = new Spikes(1100, 578);
+            s9.setRotate(270);
+
+            Block b3 = new Block(330, 450, 70, 150);
             b3.setFill(Main.blockColor);
+
+            Block b4 = new Block(530, 400, 70, 200);
+            b4.setFill(Main.blockColor);
+
+            Block b5 = new Block(700, 500, 120, 100);
+            b5.setFill(Main.blockColor);
 
             Block s = new Spikes(700, 490);
             s.setupAnimation(700, 775, Block.MotionDirection.HORIZONTAL, Block.MotionType.END, 5);
 
-
-            Block b4 = new Block(930, 300, 70, 30);
-            b4.setFill(Main.blockColor);
-            b4.setupAnimation(150, 550, Block.MotionDirection.VERTICAL, Block.MotionType.ENDLESS, 5);
-            b4.animate(true);
-
-            Block b5 = new Block(1130, 0, 70, 450);
-            b5.setFill(Main.blockColor);
-            Block b6 = new Block(1130, 500, 70, 100);
+            Block b6 = new Block(930, 300, 70, 30);
             b6.setFill(Main.blockColor);
+            b6.setupAnimation(150, 550, Block.MotionDirection.VERTICAL, Block.MotionType.ENDLESS, 5);
+            b6.animate(true);
 
-            Trap t1 = new Trap(0, 700, 1200, 50);
-            t1.setFill(Color.TRANSPARENT);
+            Trap t = new Trap(0, 700, 1200, 50);
+            t.setFill(Color.TRANSPARENT);
 
-            Door door = new Door(1170, 456);
+            Door door = new Door(1170, 454);
 
 
             levelTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
+                    if (Main.spirit.getCenterX() >= 0) b.animate(true);
                     if (Main.spirit.getCenterX() == 650) s.animate(true);
                 }
             };
@@ -230,7 +235,9 @@ public final class Levels {
             levelTimer.start();
 
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, s1,s2,s3,s4,s5,s6,s7,s9,s10, b1, b2, s, b3, b4, b5,b6, t1, door, Main.spirit);
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder,
+                    s, s1, s2, s3, s4, s5, s6, s7, s8, s9,
+                    b, b1, b2, b3, b4, b5, b6, t, door, Main.spirit);
         }
 
 
@@ -262,7 +269,7 @@ public final class Levels {
             b1.setFill(Main.blockColor);
             b1.setupAnimation(280, 340, Block.MotionDirection.HORIZONTAL, Block.MotionType.END, 5);
 
-            Block b2 = new Block(120, 550, 50, 50);
+            Block b2 = new Block(135, 550, 50, 50);
             b2.setFill(Main.blockColor);
 
             Block b3 = new Block(400, 550, 50, 50);
@@ -460,8 +467,8 @@ public final class Levels {
             Main.spirit.setVy(0);
             currentLevel = 6;
             Main.spirit.reverseGravity();
-            Main.spirit.setCenterX(1100);
-            Main.spirit.setCenterY(180);
+            Main.spirit.setCenterX(80);
+            Main.spirit.setCenterY(80);
 
             // upper border
             Block upperBorder = new Trap(0, -10, 1200, 1);
@@ -680,20 +687,10 @@ public final class Levels {
                     b_7,
                     door,
                     Main.spirit);
-            }
-
-
-
-
-
-
-
+        }
 
 
         return levelRoot;
     }
-
-
-
 
 }
