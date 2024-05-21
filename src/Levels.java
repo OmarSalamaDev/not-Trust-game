@@ -1,9 +1,11 @@
-
-
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 
 public final class Levels {
@@ -139,7 +141,7 @@ public final class Levels {
             levelTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    if (Main.spirit.getCenterX() == 790) b3.animate(true);
+                    if (b3.isTouched) b3.animate(true);
                 }
             };
             isLeveltimerOn = true;
@@ -243,6 +245,14 @@ public final class Levels {
 
         /* >>>> level 4 <<<< */
         else if (level == 4) {
+
+            Label label = new Label("Click shift key to reverse gravity");
+            label.setFont(Font.font("Consolas",20));
+            label.setTextFill(Color.WHITE);
+            label.setLayoutX(10);
+            label.setLayoutY(10);
+
+
             Main.spirit.setVx(0);
             Main.spirit.setVy(0);
             currentLevel = 4;
@@ -311,8 +321,14 @@ public final class Levels {
             isLeveltimerOn = true;
             levelTimer.start();
 
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(e -> levelRoot.getChildren().remove(label));
+            pause.play();
 
-            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, b1, b2, b3, b4, b5, b6, s1, door, Main.spirit);
+
+            levelRoot.getChildren().addAll(upperBorder, lowerBorder, leftBorder, rightBorder, b1, b2, b3, b4, b5, b6, s1, door, Main.spirit, label);
+
+
 
         }
 
@@ -687,6 +703,12 @@ public final class Levels {
                     b_7,
                     door,
                     Main.spirit);
+        }
+
+
+        else if (level == 7) {
+            ScenesLoader.switchSceneSmoothly(ScenesLoader.outroScene());
+
         }
 
 

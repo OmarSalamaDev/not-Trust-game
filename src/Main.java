@@ -33,7 +33,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setResizable(false);
         primaryStage.setTitle("!Trust");
-        Image icon = new Image("media/icons/icon-1.png");
+        Image icon = new Image("media/icons/icon1.png");
          primaryStage.getIcons().add(icon);
 
 
@@ -56,7 +56,7 @@ public class Main extends Application {
 
     public static void loadOptionsFile() {
         try {
-            Scanner input = new Scanner(new File("options.txt"));
+            Scanner input = new Scanner(new File("src/options.txt"));
             if (input.hasNext()) {
                 switch (input.next()) {
                     case "2":
@@ -89,7 +89,7 @@ public class Main extends Application {
             audio = "0";
         }
         try {
-            PrintWriter output = new PrintWriter(new FileOutputStream(new File("options.txt"), false));
+            PrintWriter output = new PrintWriter(new FileOutputStream(new File("src/options.txt"), false));
             output.append(themeNumber + " " + audio);
             output.close();
         } catch (IOException e) {

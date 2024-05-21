@@ -30,6 +30,7 @@ public final class ScenesLoader {
     public static StackPane inGameMenu;
     public static StackPane gameRoot = new StackPane();
 
+
     public static int currentScene = 0;
     public static int previousScene = 0;
     // 0 -> introScene
@@ -39,6 +40,7 @@ public final class ScenesLoader {
     // 4 -> creditsMenu
     // 5 -> levelScene
     // 6 -> in game menu
+    // 7 -> outroScene
 
 
     static int themeNum;
@@ -67,6 +69,25 @@ public final class ScenesLoader {
         introMediaPlayer.setOnEndOfMedia(() -> {
             primaryStage.setScene(mainMenu);
             previousScene = 0;
+            currentScene = 1;
+        });
+        return introScene;
+    }
+
+
+
+    public static Scene outroScene() {
+
+        StackPane introStackPane = new StackPane();
+        Scene introScene = new Scene(introStackPane, 1200, 600);
+        Media introMedia = new Media(new File("src/media/videos/clip-2.mp4").toURI().toString());
+        MediaPlayer introMediaPlayer = new MediaPlayer(introMedia);
+        introMediaPlayer.play();
+        MediaView introMediaView = new MediaView(introMediaPlayer);
+        introStackPane.getChildren().add(introMediaView);
+        introMediaPlayer.setOnEndOfMedia(() -> {
+            primaryStage.setScene(mainMenu);
+            previousScene = 5;
             currentScene = 1;
         });
         return introScene;
@@ -261,7 +282,6 @@ public final class ScenesLoader {
         hBox2.setAlignment(Pos.CENTER);
 
         StackPane preview = new StackPane();
-
 
         ImageView image1 = new ImageView("media/images/theme-1.png");
         image1.setFitWidth(512.25);
